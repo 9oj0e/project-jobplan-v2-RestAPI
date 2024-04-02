@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import shop.mtcoding.projectjobplan.user.User;
 
 @RequiredArgsConstructor
@@ -15,23 +16,16 @@ public class ApplyController {
     private final HttpSession session;
     private final ApplyService applyService;
 
-    @GetMapping("/boards/{boardId}/apply-form")
-    public String applyForm(@PathVariable int boardId, HttpServletRequest request) {
-        User sessionUser = (User) session.getAttribute("sessionUser");
-        ApplyResponse.ApplyFormDTO responseDTO = applyService.getBoardAndResume(boardId, sessionUser);
-        request.setAttribute("applyForm", responseDTO);
+    // todo: getBoardAndResume @GetMapping("/boards/{boardId}/apply-form")
 
-        return "apply/apply-form";
-    }
-
-    @PostMapping("/boards/{boardId}/apply")
+    @PostMapping("/api/boards/{boardId}/apply")
     public String apply(@PathVariable int boardId, ApplyRequest.ApplyDTO requestDTO) {
         applyService.createApply(requestDTO);
 
         return "redirect:/boards/" + boardId;
     }
 
-    @PostMapping("/apply/update")
+    @PutMapping("/api/applies")
     public String update(ApplyRequest.UpdateDTO requestDTO) { // 지원자 합격/불합격 처리
         User user = (User) session.getAttribute("sessionUser");
         applyService.updateApply(requestDTO);

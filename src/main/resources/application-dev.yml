@@ -9,10 +9,6 @@ server:
   port: 8080
 
 spring:
-  mustache:
-    servlet:
-      expose-session-attributes: true
-      expose-request-attributes: true
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:test;MODE=MySQL
