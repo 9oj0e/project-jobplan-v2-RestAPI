@@ -19,7 +19,7 @@ public class SubscribeController {
     private final HttpSession session;
     private final SubscribeService subscribeService;
 
-    @PostMapping("/boards/{boardId}/subscribe") // 공고 구독
+    @PostMapping("/boards/{boardId}") // 공고 구독
     public String subscribeBoard(@PathVariable int boardId) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         subscribeService.createBoardSubscription(sessionUser, boardId);

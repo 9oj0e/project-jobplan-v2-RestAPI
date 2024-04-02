@@ -17,18 +17,20 @@ public class RatingService {
     private final ResumeJpaRepository resumeJpaRepository;
 
     @Transactional // 공고 주인 평가
-    public void createRating(User sessionUser, RatingRequest.RateBoardUser requestDTO) {
+    public RatingResponse.DTO createRating(User sessionUser, RatingRequest.RateBoardUser requestDTO) {
         Board board = boardJpaRepository.findById(requestDTO.getBoardId()).get();
         Rating rating = new Rating(sessionUser, board, requestDTO.getRating());
+        Rating result = ratingJpaRepository.save(rating);
 
-        ratingJpaRepository.save(rating);
+        return new RatingResponse.DTO(result);
     }
 
     @Transactional // 이력서 주인 평가
-    public void createRating(User sessionUser, RatingRequest.RateResumeUser requestDTO) {
+    public RatingResponse.DTO createRating(User sessionUser, RatingRequest.RateResumeUser requestDTO) {
         Resume resume = resumeJpaRepository.findById(requestDTO.getResumeId()).get();
         Rating rating = new Rating(sessionUser, resume, requestDTO.getRating());
+        Rating result = ratingJpaRepository.save(rating);
 
-        ratingJpaRepository.save(rating);
+        return new RatingResponse.DTO(result);
     }
 }
