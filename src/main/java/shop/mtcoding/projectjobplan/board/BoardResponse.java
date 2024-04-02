@@ -78,6 +78,7 @@ public class BoardResponse {
             this.closingDate = board.getClosingDate();
         }
 
+        @Data
         public class SkillDTO {
             private String skillName;
 
@@ -136,6 +137,7 @@ public class BoardResponse {
             }
         }
 
+        @Data
         public class BoardDTO {
             // board_tb
             private Integer id;
