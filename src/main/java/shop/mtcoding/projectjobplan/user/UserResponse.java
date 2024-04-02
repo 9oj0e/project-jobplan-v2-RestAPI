@@ -154,7 +154,7 @@ public class UserResponse {
                 return FormatUtil.stringFormatter(this.title);
             }
         }
-
+        @Data
         public class ResumeDTO {
             private Integer id;
             private String title;
@@ -177,7 +177,7 @@ public class UserResponse {
                 return FormatUtil.timeFormatter(this.createdAt);
             }
         }
-
+        @Data
         public class ApplyDTO {
             // 공고 정보
             private Integer resumeId;
@@ -224,7 +224,7 @@ public class UserResponse {
                 }
             }
         }
-
+        @Data
         public class OfferDTO {
             // 이력서 정보
             private Integer resumeId;
@@ -277,7 +277,7 @@ public class UserResponse {
                 }
             }
         }
-
+        @Data
         public class SkillDTO {
             private String skillName;
 
