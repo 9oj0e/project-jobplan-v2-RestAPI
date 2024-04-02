@@ -46,7 +46,7 @@ public class UserController {
         User newSessionUser = userService.setUser(sessionUser.getId(), requestDTO);
         session.setAttribute("sessionUser", newSessionUser);
 
-        return ResponseEntity.ok(new ApiUtil(newSessionUser));
+        return ResponseEntity.ok(new ApiUtil(new UserResponse.UpdateDTO(newSessionUser)));
     }
 
     @GetMapping({"/users/{userId}",

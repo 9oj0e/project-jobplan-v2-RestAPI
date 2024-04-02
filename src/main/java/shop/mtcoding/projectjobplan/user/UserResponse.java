@@ -1,5 +1,7 @@
 package shop.mtcoding.projectjobplan.user;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -284,6 +286,33 @@ public class UserResponse {
             public SkillDTO(String skillName) {
                 this.skillName = skillName;
             }
+        }
+    }
+
+    @Data
+    public static class UpdateDTO {
+        private Integer id;
+        private Character gender;
+        private String phoneNumber;
+        private String address;
+        private String email;
+        private String schoolName;
+        private String major;
+        private String educationLevel;
+        private String employerIdNumber;
+        private String businessName;
+
+        public UpdateDTO(User user) {
+            this.id = user.getId();
+            this.gender = user.getGender();
+            this.phoneNumber = user.getPhoneNumber();
+            this.address = user.getAddress();
+            this.email = user.getEmail();
+            this.schoolName = user.getSchoolName();
+            this.major = user.getMajor();
+            this.educationLevel = user.getEducationLevel();
+            this.employerIdNumber = user.getEmployerIdNumber();
+            this.businessName = user.getBusinessName();
         }
     }
 }
