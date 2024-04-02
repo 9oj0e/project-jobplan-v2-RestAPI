@@ -5,38 +5,36 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import shop.mtcoding.projectjobplan._core.utils.PagingUtil;
+import org.springframework.web.bind.annotation.*;
+import shop.mtcoding.projectjobplan._core.utils.ApiUtil;
 import shop.mtcoding.projectjobplan.user.User;
 
 @RequiredArgsConstructor
-@Controller
+@RestController
 public class SubscribeController {
     private final HttpSession session;
     private final SubscribeService subscribeService;
 
-    @PostMapping("/boards/{boardId}") // 공고 구독
-    public String subscribeBoard(@PathVariable int boardId) {
+    @PostMapping("api/boards/{boardId}/subscribe") // 공고 구독
+    public ResponseEntity<?> subscribeBoard(@PathVariable int boardId) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        subscribeService.createBoardSubscription(sessionUser, boardId);
+        Subscribe subscribe = subscribeService.createBoardSubscription(sessionUser, boardId);
 
-        return "redirect:/boards/" + boardId;
+        return ResponseEntity.ok(new ApiUtil(subscribe));
     }
 
-    @PostMapping("/resumes/{resumeId}/subscribe") // 이력서 구독
-    public String subscribeResume(@PathVariable int resumeId) {
+    @PostMapping("api/resumes/{resumeId}/subscribe") // 이력서 구독
+    public ResponseEntity<?> subscribeResume(@PathVariable int resumeId) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        subscribeService.createResumeSubscription(sessionUser, resumeId);
+        Subscribe subscribe = subscribeService.createResumeSubscription(sessionUser, resumeId);
 
-        return "redirect:/resumes/" + resumeId;
+        return ResponseEntity.ok(new ApiUtil(subscribe));
     }
 
-    @GetMapping("/users/{userId}/subscription") // 구독 리스트
-    public String subscription(@PathVariable int userId,
+    @GetMapping("api/users/{userId}") // 구독 리스트
+    public ResponseEntity<?> subscription(@PathVariable int userId,
                                HttpServletRequest request,
                                @PageableDefault(size = 3) Pageable pageable) {
         User sessionUser = (User) session.getAttribute("sessionUser");
@@ -46,30 +44,30 @@ public class SubscribeController {
         }
         request.setAttribute("subscription", subscription);
 
-        return "user/subscription";
+        return ResponseEntity.ok(new ApiUtil(subscription));
     }
 
-    @PostMapping("/boards/{boardId}/unsubscribe")
-    public String unsubscribeBoard(@PathVariable int boardId, @RequestParam boolean fromSubscription) {
+    @DeleteMapping("api/boards/{boardId}") // 구독 취소
+    public ResponseEntity<?> unsubscribeBoard(@PathVariable int boardId, @RequestParam boolean fromSubscription) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         subscribeService.removeBoardSubscription(boardId, sessionUser.getId());
 
         if (fromSubscription) {
-            return "redirect:/users/" + sessionUser.getId() + "/subscription";
+            return ResponseEntity.ok(new ApiUtil(null));
         } else {
-            return "redirect:/boards/" + boardId;
+            return ResponseEntity.ok(new ApiUtil(null));
         }
     }
 
-    @PostMapping("/resumes/{resumeId}/unsubscribe")
-    public String unsubscribeResume(@PathVariable int resumeId, @RequestParam boolean fromSubscription) {
+    @DeleteMapping("api/resumes/{resumeId}") // 구독 취소
+    public ResponseEntity<?> unsubscribeResume(@PathVariable int resumeId, @RequestParam boolean fromSubscription) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         subscribeService.removeResumeSubscription(resumeId, sessionUser.getId());
 
         if (fromSubscription) {
-            return "redirect:/users/" + sessionUser.getId() + "/subscription";
+            return ResponseEntity.ok(new ApiUtil(null));
         } else {
-            return "redirect:/resumes/" + resumeId;
+            return ResponseEntity.ok(new ApiUtil(null));
         }
     }
 }
