@@ -83,7 +83,9 @@ public class BoardService {
         return new BoardResponse.ListingsDTO(pageable, boards, recommendations, skill, address, keyword);
     }
 
-    public List<BoardResponse.IndexDTO> getAllBoardOnIndex(int limit) { // index
+    @Transactional
+    public List<BoardResponse.IndexDTO> getAllBoardOnIndex() { // index
+        final int limit = 8;
         List<Board> boardList = boardJpaRepository.findAllJoinUser(limit).get();
         List<BoardResponse.IndexDTO> responseDTO = new ArrayList<>();
         boardList.stream().forEach(board -> {

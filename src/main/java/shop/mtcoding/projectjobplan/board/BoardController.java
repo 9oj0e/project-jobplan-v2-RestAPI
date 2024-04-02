@@ -24,19 +24,18 @@ public class BoardController {
 
     @GetMapping("/")
     public ResponseEntity<?> index() {
-        final int limit = 8;
-        List<BoardResponse.IndexDTO> responseDTO = boardService.getAllBoardOnIndex(limit);
+        List<BoardResponse.IndexDTO> responseDTO = boardService.getAllBoardOnIndex();
 
         return ResponseEntity.ok(new ApiUtil(responseDTO));
     }
 
 
-    @PostMapping("/api/boards/post")
-    public ResponseEntity<?> post(@Valid BoardRequest.SaveDTO requestDTO, Errors errors) {
+    @PostMapping("/api/boards") // 게시글 작성
+    public ResponseEntity<?> post(@Valid @RequestBody BoardRequest.SaveDTO requestDTO, Errors errors) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         BoardDTO boardDTO = boardService.createBoard(requestDTO, sessionUser);
 
-        return ResponseEntity.ok(new ApiUtil(boardDTO));
+        return ResponseEntity.ok(new ApiUtil(null));
     }
 
     @GetMapping("/api/boards/{boardId}")
@@ -48,7 +47,7 @@ public class BoardController {
         return ResponseEntity.ok(new ApiUtil(boardDetail));
     }
 
-    @GetMapping("/api/boards")
+    @GetMapping("/api/boards")  // 개인 채용공고 리스트
     public ResponseEntity<?> listings(HttpServletRequest request,
                            @PageableDefault(size = 10) Pageable pageable,
                            @RequestParam(value = "skill", required = false) String skill,

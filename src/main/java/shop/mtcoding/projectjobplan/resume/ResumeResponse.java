@@ -45,6 +45,7 @@ public class ResumeResponse {
             this.skillList = resume.getUser().getSkills().stream().map(skill -> new SkillDTO(skill.getName())).toList();
         }
 
+        @Data
         public class SkillDTO {
             private String skillName;
 
@@ -101,6 +102,7 @@ public class ResumeResponse {
             this.hasRated = hasRated;
         }
 
+        @Data
         public class SkillDTO {
             private String skillName;
 
@@ -133,6 +135,7 @@ public class ResumeResponse {
             this.keyword = keyword;
         }
 
+        @Data
         public class UserDTO {
             private int id;
             private String name;
@@ -145,6 +148,7 @@ public class ResumeResponse {
             }
         }
 
+        @Data
         public class ResumeDTO {
             // resume_tb
             private Integer id;
