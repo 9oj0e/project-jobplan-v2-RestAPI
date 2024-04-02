@@ -26,10 +26,10 @@ public class ResumeService {
     private final SubscribeJpaRepository subscribeJpaRepository;
 
     @Transactional
-    public Resume createResume(ResumeRequest.PostDTO requestDTO, User sessionUser) {
+    public ResumeDTO createResume(ResumeRequest.PostDTO requestDTO, User sessionUser) {
         Resume resume = new Resume(requestDTO, sessionUser);
-
-        return resumeJpaRepository.save(resume);
+        resumeJpaRepository.save(resume);
+        return new ResumeDTO(resume);
     }
 
     @Transactional(readOnly = true)
@@ -86,7 +86,7 @@ public class ResumeService {
     }
 
     @Transactional // 이력서수정
-    public void setResume(int id, ResumeRequest.UpdateDTO requestDTO, User sessionUser) {
+    public Resume setResume(int id, ResumeRequest.UpdateDTO requestDTO, User sessionUser) {
         // 조회 및 예외처리
         Resume resume = resumeJpaRepository.findById(id)
                 .orElseThrow(() -> new Exception404("해당 이력서를 찾을 수 없습니다."));
@@ -97,6 +97,7 @@ public class ResumeService {
         }
 
         resume.update(requestDTO);
+        return resume;
     }
 
     @Transactional // 이력서삭제
