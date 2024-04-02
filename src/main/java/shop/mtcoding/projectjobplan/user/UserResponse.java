@@ -225,6 +225,7 @@ public class UserResponse {
             }
         }
 
+        @Data
         public class OfferDTO {
             // 이력서 정보
             private Integer resumeId;

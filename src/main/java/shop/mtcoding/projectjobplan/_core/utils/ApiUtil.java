@@ -1,5 +1,8 @@
 package shop.mtcoding.projectjobplan._core.utils;
 
+import lombok.Data;
+
+@Data
 public class ApiUtil<T> {
     private Integer status;
     private String msg;
