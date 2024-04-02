@@ -7,12 +7,11 @@ import shop.mtcoding.projectjobplan._core.interceptor.LoginInterceptor;
 
 @Configuration // IoC
 public class WebMvcConfig implements WebMvcConfigurer {
-    /*
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginInterceptor())
-                .addPathPatterns("/users/**", "/boards/**", "/resumes/**")
-                .excludePathPatterns("/boards/{id:\\d+}", "/boards", "/", "/resumes/main", "/join/**", "/users/join-form/**");
+                .addPathPatterns("/users/**", "/boards/**", "/resumes/**","/api/**")
+                .excludePathPatterns("/boards/{id:\\d+}", "/boards", "/", "/resumes/main", "/join/**", "/users/join-form/**","/api/boards/**");
     }
-    */
 }

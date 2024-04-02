@@ -1,15 +1,14 @@
 package shop.mtcoding.projectjobplan._core.errors;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestController;
-import shop.mtcoding.blog._core.err.exception.*;
-import shop.mtcoding.blog._core.util.ApiUtil;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import shop.mtcoding.projectjobplan._core.errors.exception.*;
+import shop.mtcoding.projectjobplan._core.utils.ApiUtil;
 
-@RestControllerAdivce //runtimeException 이 터지만 해당 파일로 오류가 모인다.
+
+@RestControllerAdvice //runtimeException 이 터지만 해당 파일로 오류가 모인다.
 public class MyExeptionHandler{
 
     @ExceptionHandler(Exception400.class)
