@@ -1,19 +1,22 @@
 package shop.mtcoding.projectjobplan.skill;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
+import shop.mtcoding.projectjobplan._core.utils.ApiUtil;
 
 @RequiredArgsConstructor
-@Controller
+@RestController
 public class SkillController {
     private final SkillService skillService;
 
     @PostMapping("/users/{userId}/skill/add")
-    public String add(@PathVariable int userId, SkillRequest.DTO requestDTO) {
-        skillService.createSkillList(requestDTO, userId);
+    public ResponseEntity<?> add(@PathVariable int userId, SkillRequest.DTO requestDTO) {
+        System.out.println(requestDTO);
+        SkillResponse.DTO responseDTO = skillService.createSkillList(requestDTO, userId);
 
-        return "redirect:/users/" + userId;
+        return ResponseEntity.ok(new ApiUtil<>(responseDTO));
     }
 }
