@@ -1,0 +1,50 @@
+{{>layout/header}}
+<div style="display: flex; justify-content: center">
+    <div class="card" style="width: 600px; margin-bottom: 5%">
+        {{#offerForm}}
+            <div class="card-header" style="text-align: end"><b>포지션 제안</b></div>
+            <div style="margin-left: 5%; margin-right: 5%">
+                <small>{{title}}</small>
+                <div style="display: flex; justify-content: space-between">
+                    <small>{{username}}</small>
+                    <small><b>경력정보 : {{career}}</b></small>
+                </div>
+                <hr style="margin-top: 0; margin-bottom: 0;">
+            </div>
+            <div class="card-body" style="margin-left: 3%; margin-right: 3%">
+                <form action="/resumes/{{resumeId}}/offer" method="post" enctype="application/x-www-form-urlencoded">
+                    <div style="text-align: end; margin-top: 30px"><h5><b>공고 선택</b></h5></div>
+                    <hr style="margin-top: 0; margin-bottom: 0;">
+                    <table class="table table-hover" style="margin-bottom: 0px; text-align: center">
+                        {{#boardList}}
+                            <tr>
+                                <td style="text-align: center">
+                                    <a href="/boards/{{boardId}}"><small>{{boardTitle}}</small></a>
+                                </td>
+                                <td><small>{{field}}</small></td>
+                                <td><small>{{position}}</small></td>
+                                <td>
+                                    <input type="radio" name="boardId" value="{{boardId}}">
+                                </td>
+                            </tr>
+                        {{/boardList}}
+                    </table>
+                    <div style="display: flex; justify-content: space-between">
+                        <small>선택된 공고를 {{username}}님에게 제안합니다.</small>
+                    </div>
+
+                    <div style="text-align: end; margin-top: 50px"><h6><b>제안 사항</b></h6></div>
+                    <div>
+                        <textarea name="content" rows="5" style="width: 100%"></textarea>
+                    </div>
+                    <div>
+                        <small>제안 후 취소하려면 마이페이지로 가세요</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary form-control mt-3">제안하기</button>
+                </form>
+            </div>
+        {{/offerForm}}
+    </div>
+</div>
+<!-- 바디 end -->
+{{>layout/footer}}

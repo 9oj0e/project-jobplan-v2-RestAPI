@@ -1,0 +1,32 @@
+{{>layout/header }}
+<div style="display: flex; justify-content: center">
+    <div class="card" style="width: 400px; margin-top: 5%; margin-bottom: 10%">
+        <div class="card-header" style="text-align: center">
+            <h2>로그인</h2>
+        </div>
+        <div class="card-body">
+            <form action="/login" method="post" enctype="application/x-www-form-urlencoded">
+                <div class="mb-3">
+                    <p>아이디 입력</p>
+                    <input type="text" name="username" id="username" placeholder="Enter username..."
+                           class="form-control" value="emp1">
+                </div>
+                <div class="mb-3">
+                    <p>비밀번호 입력</p>
+                    <input type="password" name="password" id="password" value="1234" placeholder="Enter password..."
+                           class="form-control">
+                </div>
+                <!--
+                <div class="login-find">
+                    <div class="login-find-select">아이디 찾기</div>
+                    <div class="login-find-select">비밀번호 찾기</div>
+                    <div class="login-find-select">회원가입</div>
+                </div>
+                -->
+                <input type="submit" value="로그인" class="btn btn-primary form-control">
+            </form>
+        </div>
+    </div>
+</div>
+<!-- 바디 end -->
+{{>layout/footer}}

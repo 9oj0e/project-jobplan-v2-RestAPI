@@ -1,0 +1,61 @@
+{{>layout/header}}
+<style>
+    * {
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+        /* 높이를 설정할 때 위아래 가지고 있는 마진 패딩값을 초기화.
+ border 값이 있어야 할때 높이가 달라짐 그래서 box-sizing: border-box
+ 를 설정하면 보더 + 높이를 합쳐서 원하는 높이를 설정해줌
+ */
+    }
+
+    .div-intro-image {
+        background-image: url(../images/intro_img_web.png);
+        height: 430px;
+        background-size: 100% 100%;
+    }
+
+    .div-inner-box {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        /* 또는 부모 요소의 높이에 맞게 설정 */
+    }
+
+    .div-center-text-1 {
+        font-size: 50px;
+        font-weight: 900;
+    }
+
+    .div-center-text-2 {
+        font-size: 25px;
+        font-weight: 500;
+    }
+</style>
+<div class="mb-20" style="min-height: 600px; align-content: center">
+    <div class="div-intro-image">
+        <div class="div-inner-box">
+            <div class="div-center-text-1 text-white">회사와 지원자의 첫 만남</div>
+            <br>
+            <div class="div-center-text-2 text-white">당신의 열정이 필요합니다.</div>
+            <div class="div-center-text-2 text-white">우리와 함께 미래를 그립시다.</div>
+            <br>
+            <div>
+                <button type="button" class="btn btn-outline-light btn-light text-primary"
+                        onclick="location.href='/users/{{sessionUser.id}}'">공고 관리
+                </button>
+                <button type="button" class="btn btn-outline-primary btn-primary text-white"
+                        onclick="location.href='/boards/post-form'">공고 작성
+                </button>
+                <button type="button" class="btn btn-outline-light btn-light text-primary"
+                        onclick="location.href='/boards'">공고 목록 보기
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 바디 end -->
+{{>layout/footer}}

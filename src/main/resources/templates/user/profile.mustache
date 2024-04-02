@@ -1,0 +1,20 @@
+{{>layout/header}}
+<!-- 바디 start -->
+{{#profileDTO}}
+    <main class="main-size">
+        <div class="div-body">
+            {{>user/profile-info}}
+            {{#isEmployer}}
+                {{>user/profile-boardlist}}
+            {{/isEmployer}}
+            {{^isEmployer}}
+                {{>user/profile-resumelist}}
+            {{/isEmployer}}
+            {{>user/profile-applylist}}
+            {{>user/profile-offerlist}}
+        </div>
+    </main>
+{{/profileDTO}}
+<!-- 바디 end -->
+{{>layout/footer}}
+{{>user/profile-modal}}

@@ -1,0 +1,45 @@
+<!-- 내 공고 보기 -->
+<div class="div-layout">
+    <div class="div-header d-flex justify-content-between">
+        <h3><b>공고 관리</b></h3>
+        <form action="/boards/post-form" method="get" class="justify-content-end">
+            <button class="btn btn-primary">추가</button>
+        </form>
+    </div>
+    <div class="div-announcement">
+        <table class="table table-hover" style="text-align: center">
+            <tr>
+                <th>포지션</th>
+                <th>채용 분야</th>
+                <th>공고 제목</th>
+                <th>게시일</th>
+                <th></th>
+            </tr>
+            {{#boardList}}
+                <tr onclick="location.href='/boards/{{id}}'">
+                    <td>{{position}}</td>
+                    <td>{{field}}</td>
+                    <td>{{title}}</td>
+                    <td>{{openingDate}}</td>
+                    <td>
+                        <div style="display: flex; justify-content: space-evenly">
+                            <div style="display: flex; justify-content: center">
+                                <form action="/users/{{sessionUser.id}}/boards/{{id}}" method="get">
+                                    <button class="btn btn-primary">지원자</button>
+                                </form>
+                            </div>
+                            <!--제안-->
+                            <div style="display: flex; justify-content: center">
+                                <form action="/users/{{sessionUser.id}}/boards/{{id}}" method="get">
+                                    <button class="btn btn-primary">제안</button>
+                                </form>
+                            </div>
+                        </div>
+                        <!--지원자-->
+
+                    </td>
+                </tr>
+            {{/boardList}}
+        </table>
+    </div>
+</div>

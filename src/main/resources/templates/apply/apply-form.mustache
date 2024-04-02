@@ -1,0 +1,58 @@
+{{>layout/header}}
+<div style="display: flex; justify-content: center">
+    <div class="card" style="width: 600px; margin-bottom: 5%">
+        {{#applyForm}}
+            <div class="card-header" style="text-align: end"><b>온라인 입사지원</b></div>
+            <div style="margin-left: 5%; margin-right: 5%">
+                <small>{{boardTitle}}</small>
+                <div style="display: flex; justify-content: space-between">
+                    <small>{{businessName}}</small>
+                    <small><b>마감일 : {{closingDate}}</b></small>
+                </div>
+                <hr style="margin-top: 0; margin-bottom: 0;">
+            </div>
+            <div class="card-body" style="margin-left: 3%; margin-right: 3%">
+                <form action="/boards/{{boardId}}/apply" method="post" enctype="application/x-www-form-urlencoded">
+                    <div style="text-align: end; margin-top: 30px"><h5><b>이력서 선택</b></h5></div>
+                    <hr style="margin-top: 0; margin-bottom: 0;">
+                    <table class="table table-hover" style="margin-bottom: 0px; text-align: center">
+                        {{#resumeList}}
+                            <tr>
+                                <td>
+                                    <form action="/resumes/{{resumeId}}/update-form" method="get">
+                                        <button class="btn btn-outline-primary">수정</button>
+                                    </form>
+                                </td>
+                                <td><small>{{createdAt}}</small></td>
+                                <td style="text-align: center">
+                                    <a href="/resumes/{{resumeId}}"><small>{{resumeTitle}}</small></a>
+                                </td>
+                                <td>
+                                    <input type="radio" name="resumeId" value="{{resumeId}}">
+                                </td>
+                            </tr>
+                        {{/resumeList}}
+                    </table>
+                    <div style="display: flex; justify-content: space-between">
+                        <small>이미 지원된 이력서는 수정이 불가능 하오니 한번 더 확인해 주세요.</small>
+                        <small><a href="/users/{{sessionUser.id}}">이력서 더보기</a></small>
+                    </div>
+
+                    <div style="text-align: end; margin-top: 50px"><h6><b>사장님(인사담당자님)께 한마디</b></h6></div>
+                    <div>
+                        <textarea name="content" rows="5" style="width: 100%"></textarea>
+                    </div>
+                    <div>
+                        <small>면접제의가 오면 약속된 면접시간을 꼭 지켜주세요.</small>
+                    </div>
+                    <div>
+                        <small>부득이하게 면접에 불참하게 될 경우 면접시간 전에 미리 연락하는 것은 구직자의 기본 매너입니다.</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary form-control mt-3">지원하기</button>
+                </form>
+            </div>
+        {{/applyForm}}
+    </div>
+</div>
+<!-- 바디 end -->
+{{>layout/footer}}

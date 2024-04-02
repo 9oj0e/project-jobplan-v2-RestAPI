@@ -1,0 +1,87 @@
+{{^isEmployer}}
+    <div class="div-layout">
+        <div class="div-header d-flex justify-content-between" style="text-align: end">
+            <h2><b>받은 제안</b></h2>
+            <form action="/users/{{sessionUser.id}}/resumes" method="get" class="justify-content-end">
+                <button class="btn btn-primary">전체</button>
+            </form>
+        </div>
+        <div class="div-resume">
+            <table class="table table-hover" style="text-align: center">
+                <tr>
+                    <th>이력서 제목</th>
+                    <th>회사명</th>
+                    <th>공고 제목</th>
+                    <th></th>
+                </tr>
+                {{#offerList}}
+                    <tr>
+                        <td><a href="/resumes/{{resumeId}}">{{title}}</a></td>
+                        <td>{{businessName}}</td>
+                        <td><a href="/boards/{{boardId}}">{{boardTitle}}</a></td>
+                        <td>
+                            <div style="display: flex; justify-content: space-evenly">
+                                {{#status}}
+                                    <div>{{status}}</div>
+                                {{/status}}
+                                {{^status}}
+                                    <form action="/offer/update" method="post">
+                                        <input type="hidden" name="id" value="{{id}}">
+                                        <input type="hidden" name="status" value="0">
+                                        <button type="submit" class="btn btn-outline-danger">거절</button>
+                                    </form>
+                                    <form action="/offer/update" method="post">
+                                        <input type="hidden" name="id" value="{{id}}">
+                                        <input type="hidden" name="status" value="1">
+                                        <button type="submit" class="btn btn-primary">수락</button>
+                                    </form>
+                                {{/status}}
+                            </div>
+                        </td>
+                    </tr>
+                {{/offerList}}
+            </table>
+        </div>
+    </div>
+{{/isEmployer}}
+{{#isEmployer}}
+    <div class="div-layout">
+        <div class="div-header d-flex justify-content-between">
+            <h3><b>나의 제안 현황</b></h3>
+            <form action="/users/{{sessionUser.id}}/boards" method="get" class="justify-content-end">
+                <button class="btn btn-primary">전체</button>
+            </form>
+        </div>
+        <table class="table table-hover" style="text-align: center">
+            <tr>
+                <th>이름</th>
+                <th>경력</th>
+                <th>채용 분야</th>
+                <th>이력서 제목</th>
+                <th>제안한 공고</th>
+                <th></th>
+            </tr>
+            {{#offerList}}
+                <tr>
+                    <td>{{username}}</td>
+                    <td>{{career}}</td>
+                    <td>{{field}}</td>
+                    <td><a href="/resumes/{{resumeId}}">{{title}}</a></td>
+                    <td><a href="/boards/{{boardId}}">{{boardTitle}}</a></td>
+                    {{#status}}
+                        <td>
+                            <div>{{status}}</div>
+                        </td>
+                    {{/status}}
+                    {{^status}}
+                        <td>
+                            <form action="/offer/{{id}}/delete" method="post">
+                                <button class="btn btn-outline-danger">제안 취소</button>
+                            </form>
+                        </td>
+                    {{/status}}
+                </tr>
+            {{/offerList}}
+        </table>
+    </div>
+{{/isEmployer}}

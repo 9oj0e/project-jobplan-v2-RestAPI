@@ -1,0 +1,56 @@
+<section class="section-body">
+    <div class="div-recommendation mb-20">추천 인재</div>
+<div class="div-reference">
+    {{#page.userList}}
+        <div onclick="location.href='?userid={{id}}'">
+        <img class="card-img" src="/../images/avatar.png" style="width:75%; height: 75%">
+        <div class="div-recommendation-text-1">{{schoolName}}</div>
+        <!--<span><a href="" class="text-body"><i class="fa-regular fa-star"></i></a></span>-->
+        <div class="div-recommendation-text-2">{{name}}</div>
+    </div>
+    {{/page.userList}}
+    </div>
+    </div>
+</section>
+<!-- dummy data
+<section class="section-body">
+    <div class="div-recommendation mb-20">추천 인재</div>
+    <div class="div-recommendation-people">
+        <div onclick="location.href='/resume/1'">
+            <div class="user-image1"></div>
+            <div class="div-recommendation-text-1">잘부탁드립니다.
+                <span><a href="" class="text-body"><i class="fa-regular fa-star"></i></a></span>
+            </div>
+            <div class="div-recommendation-text-2">류재성</div>
+        </div>
+        <div onclick="location.href='/resume/1'">
+            <div class="user-image2"></div>
+            <div class="div-recommendation-text-1">열심히 하겠습니다.
+                <span><a href="" class="text-body"><i class="fa-regular fa-star"></i></a></span>
+            </div>
+            <div class="div-recommendation-text-2">장현정</div>
+        </div>
+        <div onclick="location.href='/resume/1'">
+            <div class="user-image3"></div>
+            <div class="div-recommendation-text-1">자기개발하는 개발자.
+                <span><a href="" class="text-body"><i class="fa-regular fa-star"></i></a></span>
+            </div>
+            <div class="div-recommendation-text-2">김성재</div>
+        </div>
+        <div onclick="location.href='/resume/1'">
+            <div class="user-image4"></div>
+            <div class="div-recommendation-text-1">밤새는 개발자.
+                <span><a href="" class="text-body"><i class="fa-regular fa-star"></i></a></span>
+            </div>
+            <div class="div-recommendation-text-2">이서현</div>
+        </div>
+        <div onclick="location.href='/resume/1'">
+            <div class="user-image5"></div>
+            <div class="div-recommendation-text-1">노력하는 인재입니다.
+                <span><a href="" class="text-body"><i class="fa-regular fa-star"></i></a></span>
+            </div>
+            <div class="div-recommendation-text-2">조정현</div>
+        </div>
+    </div>
+</section>
+-->

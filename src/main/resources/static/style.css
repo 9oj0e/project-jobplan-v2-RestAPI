@@ -1,0 +1,514 @@
+/*   배경 부분 start  */
+
+/* 모든 요소의 마진 패딩값 초기화 */
+
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    /* 높이를 설정할 때 위아래 가지고 있는 마진 패딩값을 초기화.
+     border 값이 있어야 할때 높이가 달라짐 그래서 box-sizing: border-box
+     를 설정하면 보더 + 높이를 합쳐서 원하는 높이를 설정해줌
+     */
+}
+
+/* RYU 공통 start */
+a {
+    text-decoration: none !important;
+    color: black;
+
+    padding: 5px 5px;
+    /* 클릭 영역 확대 */
+    margin-right: 5px;
+    /* 오른쪽 여백 설정 */
+
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+
+/* RYU 공통 end */
+
+/* KSJ 공통 start */
+.body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+}
+
+.h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* KSJ 공통 end */
+
+/* CYJ 공통 start */
+
+/* CYJ 공통 end */
+
+/* 헤더 start */
+.main-size {
+    width: 1000px;
+    margin: 0px auto;
+}
+
+.header-main {
+    position: sticky;
+    top: 0px;
+    background: white;
+    opacity: 0.9;
+    outline: grey;
+    outline-style: groove;
+    outline-width: thin;
+    margin-bottom: 10px;
+    /* padding-right: 10px; */
+    height: 60px;
+    /*background-size: 100% 100%;*/
+    /*width: 1000px;*/
+    min-width: 750px;
+    z-index: 1;
+}
+
+.nav-header {
+    padding: 20px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.div-menu-left {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-column-gap: 10px;
+    color: black;
+    font-weight: 800;
+
+
+}
+
+.div-menu-right {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-column-gap: 10px;
+    color: black;
+    font-weight: 800;
+
+}
+
+.box-tf {
+    position: relative;
+}
+
+.icon-search {
+    position: absolute;
+    top: 10px;
+    left: 270px;
+}
+
+/* 헤더 end */
+
+
+/* 검색 & 광고 배너 start */
+.div-container {
+    margin: 30px 10px;
+    height: 100%;
+}
+ #searchInput::placeholder {
+     color: white;
+     opacity: 1; /* Firefox */
+ }
+
+.search-box-banner {
+    background-image: url(../images/intro_img_web.png);
+    height: 150px;
+    border-radius: 20px;
+    background-size: 100% 100%;
+    align-content: center;
+}
+
+.search-box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.div-ad-img1 {
+    background-image: url(../images/ad1.png);
+    height: 150px;
+    border-radius: 20px;
+    background-size: 100% 100%;
+}
+/* 검색 & 광고 배너 end */
+
+/* 바디 start */
+.sidenav-container {
+    height: 1000px;
+    position: relative;
+}
+
+.sidenav {
+    position: sticky;
+    top: 70px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.div-recommendation {
+    font-size: 25px;
+    font-weight: 800;
+    color: rgb(66, 66, 66);
+}
+
+.section-body {
+    margin: 30px 0;
+}
+
+.div-recommendation-img {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column-gap: 10px;
+}
+
+.div-recommendation-img-1 {
+    background-image: url(images/maincompany1.png);
+    height: 250px;
+    background-size: 100% 100%;
+    border-radius: 20px;
+
+}
+
+.div-recommendation-img-2 {
+    background-image: url(images/maincompany2.png);
+    height: 250px;
+    background-size: 100% 100%;
+    border-radius: 20px;
+
+}
+
+.div-recommendation-img-3 {
+    background-image: url(images/maincompany3.png);
+    height: 250px;
+    background-size: 100% 100%;
+    border-radius: 20px;
+
+}
+
+.div-recommendation-text-1 {
+    margin: 5px 0;
+    font-size: 13px;
+    color: grey;
+}
+
+.div-recommendation-text-2 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.div-jop-more {
+    display: flex;
+    justify-content: space-between;
+}
+
+.div-recommendation-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 10px;
+}
+
+.div-company-img {
+    height: 180px;
+    background-size: 100% 100%;
+    border-radius: 20px;
+}
+
+.div-recommendation-img-0 {
+    height: 250px;
+    background-size: 100% 100%;
+    border-radius: 20px;
+}
+
+.div-company-img-네이버 {
+    background-image: url(images/네이버.jpg);
+    height: 180px;
+    background-size: 100% 100%;
+    border-radius: 20px;
+}
+
+.div-company-img-카카오 {
+    background-image: url(images/카카오.jpg);
+    height: 180px;
+    background-size: 100% 100%;
+    border-radius: 20px;
+}
+
+.div-company-img-라인 {
+    background-image: url(images/라인.jpg);
+    height: 180px;
+    background-size: 100% 100%;
+    border-radius: 20px;
+}
+
+.div-company-img-쿠팡 {
+    background-image: url(images/쿠팡.jpg);
+    height: 180px;
+    background-size: 100% 100%;
+    border-radius: 20px;
+}
+
+.div-company-img-배달의민족 {
+    background-image: url(images/배달의민족.jpg);
+    height: 180px;
+    background-size: 100% 100%;
+    border-radius: 20px;
+}
+
+.user-image1 {
+    background-image: url(images/user1.jpg);
+    width: 150px;
+    height: 180px;
+    background-size: 100% 100%;
+    border-radius: 20px;
+}
+
+.user-image2 {
+    background-image: url(images/user2.jpg);
+    width: 150px;
+    height: 180px;
+    background-size: 100% 100%;
+    border-radius: 20px;
+}
+
+.user-image3 {
+    background-image: url(images/user3.jpg);
+    width: 150px;
+    height: 180px;
+    background-size: 100% 100%;
+    border-radius: 20px;
+}
+
+.user-image4 {
+    background-image: url(images/user4.jpg);
+    width: 150px;
+    height: 180px;
+    background-size: 100% 100%;
+    border-radius: 20px;
+}
+
+.user-image5 {
+    background-image: url(images/user5.jpg);
+    width: 150px;
+    height: 180px;
+    background-size: 100% 100%;
+    border-radius: 20px;
+}
+
+.div-reference {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-column-gap: 10px;
+}
+
+.div-job-sector {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 120px;
+}
+
+.page-link {
+    color: black !important;
+}
+
+/* KSJ body start */
+
+.div-resume-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 2fr 1fr 1fr;
+}
+
+.div-apply-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.table-image {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.td-image {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.div-body {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.div-layout {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+}
+
+.div-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5%;
+}
+
+.div-information {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-column-gap: 5%;
+}
+
+.div-information-grid,
+.div-resume,
+.div-announcement,
+.div-applicant {
+    width: 100%;
+}
+
+.button {
+    margin-left: 10px;
+}
+
+.button-inline {
+    display: inline;
+}
+
+.button-group {
+    display: flex;
+}
+
+.td-resume,
+.td-announcement,
+.td-applicant {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* KSJ body end */
+
+/* KJS body start */
+
+.table-resume-notice {
+    border: 2px solid rgb(219, 219, 219);
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.table-resume-notice tr {
+    border: 1px solid rgb(219, 219, 219);
+}
+
+.table-resume-notice td {
+    border: 1px solid rgb(219, 219, 219);
+    font-size: 15px;
+    padding: 10px;
+}
+
+.col-1 {
+    border: none;
+}
+
+.table-td-width-10 {
+    width: 10%;
+}
+
+.input-width30 {
+    width: 30%;
+}
+
+.input-width15 {
+    width: 15%;
+}
+
+.input-width10 {
+    width: 10%;
+}
+
+.input-width5 {
+    width: 5%;
+}
+
+.title-inline {
+    display: inline-block;
+}
+
+.textarea-work-size {
+    height: 200px;
+    width: 100%;
+}
+
+.textarea-introduction-size {
+    height: 300px;
+    width: 100%;
+}
+
+.button-post-cancel {
+    text-align: center;
+}
+
+/* KJS body end */
+
+/* CYJ body starts */
+
+/* CYJ body end */
+
+/* footer */
+
+
+.div-footer-top {
+    /* margin-bottom: 30px; */
+    font-weight: bold;
+    width: 1000px;
+    margin: 0px auto 30px auto;
+}
+
+/* jjh */
+
+th {
+    vertical-align: middle;
+}
+
+td {
+    vertical-align: middle;
+}
+
+.main-card-container {
+    display: flex;
+    justify-content: center;
+}
+
+.div-card {
+    width: 600px;
+    margin-bottom: 5%;
+}
+
+.card-title {
+    text-align: end;
+}
+
+.card-body-container {
+    width: 80%;
+    justify-content: center;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.icon-size {
+    font-size: 20pt;
+}

@@ -1,0 +1,41 @@
+{{>layout/header}}
+<style>
+    th {
+        text-align: center;
+    }
+
+    td {
+        text-align: center;
+    }
+</style>
+<!-- 바디 start -->
+<main class="main-size mb-20">
+    <section class="section-body" style="min-height: 600px">
+        {{#sessionUser.isEmployer}}
+            {{>user/subscription-resumelist}}
+        {{/sessionUser.isEmployer}}
+        {{^sessionUser.isEmployer}}
+            {{>user/subscription-boardlist}}
+        {{/sessionUser.isEmployer}}
+    </section>
+    <section class="section-body">
+        <div class="d-flex justify-content-center">
+            <ul class="pagination">
+                <li class="page-item {{^subscription.page.hasPrevious}}disabled{{/subscription.page.hasPrevious}}">
+                    <a class="page-link" href="?page={{subscription.page.pageable.previousOrFirst.pageNumber}}
+                    ">Previous</a>
+                </li>
+                {{#subscription.pageList}}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{.}}">{{.}}</a>
+                    </li>
+                {{/subscription.pageList}}
+                <li class="page-item {{^subscription.page.hasNext}}disabled{{/subscription.page.hasNext}}">
+                    <a class="page-link" href="?page={{subscription.page.pageable.next.pageNumber}}">Next</a>
+                </li>
+            </ul>
+        </div>
+    </section>
+</main>
+<!-- 바디 end -->
+{{>layout/footer}}

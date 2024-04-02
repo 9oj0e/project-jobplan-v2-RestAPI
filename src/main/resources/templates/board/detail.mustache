@@ -1,0 +1,71 @@
+{{>layout/header}}
+<!-- 바디 start -->
+<main class="main-card-container">
+    {{#boardDetail}}
+        {{>board/detail-sidenav-left}}
+        <!-- card start -->
+        <div class="card div-card">
+            <div class="card-header card-title">
+                <h3>{{title}}</h3>
+            </div>
+            <div class="card-body" style=" margin-left: 5%; margin-right: 5%">
+                <h4 class="card-title">조건</h4>
+                <table class="table">
+                    <tr>
+                        <td>근무 지역</td>
+                        <td>{{address}}</td>
+                    </tr>
+                    <tr>
+                        <td>채용 분야</td>
+                        <td>{{field}}</td>
+                    </tr>
+                    <tr>
+                        <td>포지션</td>
+                        <td>{{position}}</td>
+                    </tr>
+                    <tr>
+                        <td>연봉</td>
+                        <td>{{salary}}</td>
+                    </tr>
+                </table>
+                <h4 class="card-title">우대 스킬</h4>
+                <div class="form-control mb-3">
+                    {{#skillList}}
+                        <btn class="btn btn-light">{{skillName}}</btn>
+                    {{/skillList}}
+                    {{^skillList}}
+                        <btn class="btn btn-outline-light form-control">없음</btn>
+                    {{/skillList}}
+                </div>
+                <h4 class="card-title">상세 내용</h4>
+                <div class="form-control mb-3" style="height: 300px">{{content}}</div>
+                <h4 class="card-title">연락처</h4>
+                <table class="table">
+                    <tr>
+                        <td>전화</td>
+                        <td>{{phoneNumber}}</td>
+                    </tr>
+                    <tr>
+                        <td>이메일</td>
+                        <td>{{email}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="card-footer">
+                <table class="table table-borderless">
+                    <tr>
+                        <td style="background-color: transparent; text-align: end">게시일</td>
+                        <td style="background-color: transparent">{{openingDate}}</td>
+                        <td style="background-color: transparent; text-align: end">마감일</td>
+                        <td style="background-color: transparent">{{closingDate}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!-- card end -->
+        {{>board/detail-sidenav-right}}
+    {{/boardDetail}}
+</main>
+<!-- 바디 end -->
+{{>layout/footer}}
+{{>board/detail-modal}}

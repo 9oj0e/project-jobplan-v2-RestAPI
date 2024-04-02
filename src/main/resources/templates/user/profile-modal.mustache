@@ -1,0 +1,375 @@
+<!-- modal start -->
+<!-- modal :: updateForm start -->
+{{#profileDTO}}
+    <div class="modal fade" id="updateForm" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="/users/{{id}}/update" method="post" enctype="application/x-www-form-urlencoded">
+                    <div class="modal-header" style="text-align: end">
+                        {{#isEmployer}}
+                            <b>기업 정보 수정</b>
+                        {{/isEmployer}}
+                        {{^isEmployer}}
+                            <b>회원 정보 수정</b>
+                        {{/isEmployer}}
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div style="text-align: end"><h4>기본 정보</h4></div>
+                        <div>아이디</div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="username" value="{{username}}"
+                                   style="background: #dee2e6" readonly>
+                        </div>
+                        <div>비밀번호</div>
+                        <div class="mb-3">
+                            <input type="password" class="form-control" name="password" placeholder="{{password}}"
+                                   value="{{password}}">
+                        </div>
+                        <div style="text-align: end"><h4>개인 정보</h4></div>
+                        <div>이름</div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="name" value="{{name}}"
+                                   style="background: #dee2e6" readonly>
+                        </div>
+                        <div>생년월일</div>
+                        <div class="mb-3">
+                            <input type="date" class="form-control" name="birthdate" value="{{birthdate}}"
+                                   style="background: #dee2e6" readonly>
+                        </div>
+                        <div>성별</div>
+                        <div class="mb-3" style="display: grid; grid-template-columns: 1fr 1fr">
+                            <div style="display: flex; justify-content: center">
+                                <span>남자</span>
+                                <input type="radio" name="gender" id="gender" value='M' required>
+                            </div>
+                            <div style="display: flex; justify-content: center">
+                                <span>여자</span>
+                                <input type="radio" name="gender" id="gender" value='F' required>
+                            </div>
+                        </div>
+                        <div>휴대전화</div>
+                        <div class="mb-3">
+                            <input type="tel" class="form-control" name="phoneNumber" value="{{phoneNumber}}"
+                                   required>
+                        </div>
+                        <div>주소</div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="address" value="{{address}}">
+                        </div>
+                        <div>이메일</div>
+                        <div class="mb-3">
+                            <input type="email" class="form-control" name="email" value="{{email}}">
+                        </div>
+                        {{#isEmployer}}
+                            <div style="text-align: end"><h4>기업 정보</h4></div>
+                            <div>사업자번호</div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" name="employerIdNumber"
+                                       value="{{employerIdNumber}}"
+                                       required>
+                            </div>
+                            <div>회사명</div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" name="businessName" value="{{businessName}}"
+                                       required>
+                            </div>
+                        {{/isEmployer}}
+                        {{^isEmployer}}
+                            <div style="text-align: end"><h4>학력 정보</h4></div>
+                            <input type="hidden" name="isEmployer" value="false"> <!--기업 회원 여부 false-->
+                            <div class="mb-3">
+                                <p class="p-text">학력</p>
+                                <input type="text" name="educationLevel" value="{{educationLevel}}"
+                                       class="form-control"
+                                       required>
+                            </div>
+                            <div class="mb-3">
+                                <p class="p-text">학교명</p>
+                                <input type="text" name="schoolName" value="{{schoolName}}" class="form-control"
+                                       required>
+                            </div>
+                            <div class="mb-3">
+                                <p class="p-text">전공</p>
+                                <input type="text" name="major"
+                                       {{#major}}value="{{major}}"{{/major}} class="form-control" required>
+                            </div>
+                        {{/isEmployer}}
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                        <button type="submit" class="btn btn-primary">수정 완료</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{{/profileDTO}}
+<!-- modal :: updateForm end -->
+<!-- modal :: deleteForm start -->
+<div class="modal fade" id="deleteForm" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">회원 탈퇴</h5>
+            </div>
+            <div class="modal-body">
+                <div>탈퇴를 희망하십니까?</div>
+                <div>모든 이력은 동시에 삭제됩니다.</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">취소</button>
+                <form action="/users/{{profileDTO.id}}/delete" method="post">
+                    <button class="btn btn-danger">삭제</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- modal :: deleteForm end -->
+<!-- modal :: skillForm start -->
+<div class="modal fade" id="skillForm" tabindex="-1">
+    <div class="modal-dialog">
+        <form {{^skillList}}action="/users/{{sessionUser.id}}/skill/add"{{/skillList}}{{#skillList}}action="/users/{{sessionUser.id}}/skill/update"{{/skillList}}
+              method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">기술 스택</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h4 class="card-title">스킬 추가</h4>
+                    <table class="table">
+                        <tr>
+                            <td>
+                                <div>Java</div>
+                            </td>
+                            <td style="text-align: center">
+                                <input type="checkbox" name="skill" value="java">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>JavaScript</div>
+                            </td>
+                            <td style="text-align: center">
+                                <input type="checkbox" name="skill" value="javaScript">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>Spring</div>
+                            </td>
+                            <td style="text-align: center">
+                                <input type="checkbox" name="skill" value="Spring">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>HTML</div>
+                            </td>
+                            <td style="text-align: center">
+                                <input type="checkbox" name="skill" value="HTML">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>JQuery</div>
+                            </td>
+                            <td style="text-align: center">
+                                <input type="checkbox" name="skill" value="jQuery">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>MySQL</div>
+                            </td>
+                            <td style="text-align: center">
+                                <input type="checkbox" name="skill" value="MySQL">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>Flutter</div>
+                            </td>
+                            <td style="text-align: center">
+                                <input type="checkbox" name="skill" value="Flutter">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>React</div>
+                            </td>
+                            <td style="text-align: center">
+                                <input type="checkbox" name="skill" value="React">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>AWS</div>
+                            </td>
+                            <td style="text-align: center">
+                                <input type="checkbox" name="skill" value="AWS">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>C</div>
+                            </td>
+                            <td style="text-align: center">
+                                <input type="checkbox" name="skill" value="C">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>Basic</div>
+                            </td>
+                            <td style="text-align: center">
+                                <input type="checkbox" name="skill" value="Basic">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>Python</div>
+                            </td>
+                            <td style="text-align: center">
+                                <input type="checkbox" name="skill" value="Python">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>Linux</div>
+                            </td>
+                            <td style="text-align: center">
+                                <input type="checkbox" name="skill" value="Linux">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    <button type="submit" class="btn btn-primary">완료</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- modal :: skillForm end -->
+<!-- modal :: applyAcceptForm start -->
+<div class="modal fade" id="applyAcceptForm" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">합격 처리</h5>
+            </div>
+            <div class="modal-body">
+                해당 지원자를 '합격' 처리 하시겠습니까?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">취소</button>
+                <form action="/apply/update" method="post">
+                    <input name="status" type="hidden" value="1">
+                    <input name="id" id="statusInput" type="hidden">
+                    <button class="btn btn-outline-primary">합격</button>
+                </form>
+                <script>
+                    function getApplyId() {
+                        let inputValue = document.getElementById("applyId").value;
+                        let statusInput = document.getElementById("statusInput");
+                        statusInput.value = inputValue;
+                    }
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- modal :: applyAcceptForm end -->
+<!-- modal :: applyRejectForm start -->
+<div class="modal fade" id="applyRejectForm" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">불합격 처리</h5>
+            </div>
+            <div class="modal-body">
+                해당 지원자를 '불합격' 처리 하시겠습니까?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">취소</button>
+                <form action="/apply/update" method="post">
+                    <input name="status" type="hidden" value="0">
+                    <input name="id" id="statusInput" type="hidden">
+                    <button class="btn btn-outline-danger">불합격</button>
+                </form>
+            </div>
+            <script>
+                function getApplyId() {
+                    let inputValue = document.getElementById("applyId").value;
+                    let statusInput = document.getElementById("statusInput");
+                    statusInput.value = inputValue;
+                }
+            </script>
+        </div>
+    </div>
+</div>
+<!-- modal :: applyRejectForm end -->
+<!-- modal :: offerAcceptForm start -->
+<div class="modal fade" id="applyAcceptForm" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">합격 처리</h5>
+            </div>
+            <div class="modal-body">
+                해당 지원자를 '합격' 처리 하시겠습니까?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">취소</button>
+                <form action="/apply/update" method="post">
+                    <input name="status" type="hidden" value="1">
+                    <input name="id" id="statusInput" type="hidden">
+                    <button class="btn btn-outline-primary">합격</button>
+                </form>
+                <script>
+                    function getApplyId() {
+                        let inputValue = document.getElementById("applyId").value;
+                        let statusInput = document.getElementById("statusInput");
+                        statusInput.value = inputValue;
+                    }
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- modal :: offerAcceptForm end -->
+<!-- modal :: offerRejectForm start -->
+<div class="modal fade" id="applyRejectForm" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">불합격 처리</h5>
+            </div>
+            <div class="modal-body">
+                해당 지원자를 '불합격' 처리 하시겠습니까?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">취소</button>
+                <form action="/apply/update" method="post">
+                    <input name="status" type="hidden" value="0">
+                    <input name="id" id="statusInput" type="hidden">
+                    <button class="btn btn-outline-danger">불합격</button>
+                </form>
+            </div>
+            <script>
+                function getApplyId() {
+                    let inputValue = document.getElementById("applyId").value;
+                    let statusInput = document.getElementById("statusInput");
+                    statusInput.value = inputValue;
+                }
+            </script>
+        </div>
+    </div>
+</div>
+<!-- modal :: offerRejectForm end -->
+<!-- modal end -->

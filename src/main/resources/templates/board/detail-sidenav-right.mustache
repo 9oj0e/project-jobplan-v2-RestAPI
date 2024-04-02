@@ -1,0 +1,62 @@
+<!-- sidenav RIGHT start -->
+<div class="sidenav-container">
+    <div class="sidenav">
+        <div class="card" style="width:200px">
+            <div class="card-body" style="padding-left: 0; padding-right: 0">
+                <div class="card-title">
+                    <!-- 평점 start -->
+                    {{#rating}}
+                        <table class="table">
+                            <tr>
+                                <td style="text-align: end; padding-bottom: 0; padding-top: 0">평점 ⭐</td>
+                                <td style="text-align: start; padding-bottom: 0; padding-top: 0">{{rating}}</td>
+                            </tr>
+                        </table>
+                    {{/rating}}
+                    <!-- 평점 end -->
+                </div>
+                <!-- 사진 start -->
+                {{#pic}}
+                    <img class="card-img-top" src="/upload/{{imgFilename}}" style="width:100%">
+                {{/pic}}
+                {{^pic}}
+                    <img class="card-img-top" src="../images/{{businessName}}.jpg"
+                         alt="../images/business.png" style="width:100%">
+                {{/pic}}
+                <!-- 사진 end -->
+                <h4 class="card-title text-center">{{businessName}}</h4>
+            </div>
+            <div class="card-footer" style="text-align: center;">
+                {{^sessionUser.isEmployer}}
+                    <!-- 평가 버튼 start -->
+                    {{^hasRated}}
+                        <form action="/boards/{{id}}/rate" method="post">
+                            <div>
+                                <select name="rating" style="text-align: center; width: 100%">
+                                    <option value="1">1점</option>
+                                    <option value="2">2점</option>
+                                    <option value="3">3점</option>
+                                    <option value="4">4점</option>
+                                    <option value="5">5점</option>
+                                </select>
+                                <div align="right">
+                                    <button class="btn btn-outline-dark btn-sm"
+                                            style="width: 100%; margin-top: 5px">
+                                        평가하기
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    {{/hasRated}}
+                    <!-- 평가 버튼 end -->
+                    <div class="mt-3"> <!-- 지원하기 버튼 -->
+                        <form action="/boards/{{id}}/apply-form" method="get">
+                            <button class="btn btn-primary form-control">지원</button>
+                        </form>
+                    </div>
+                {{/sessionUser.isEmployer}}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- sidenav RIGHT end -->

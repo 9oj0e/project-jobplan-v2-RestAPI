@@ -1,0 +1,43 @@
+{{>layout/header}}
+<!-- 바디 start -->
+<main class="main-size">
+    {{^sessionUser.isEmployer}}
+        {{>board/listings-search-banner}}
+    {{/sessionUser.isEmployer}}
+    {{#sessionUser.isEmployer}}
+        {{>resume/listings-search-banner}}
+    {{/sessionUser.isEmployer}}
+    <hr>
+    {{>advertisement}}
+    <hr>
+    <!-- 채용 공고 리스트 start -->
+    <section class="section-body">
+        <div class="div-jop-more">
+            <div class="div-recommendation mb-20">채용 정보</div>
+            <a href="/boards" class="text-body">
+                <h6>더보기</h6>
+            </a>
+        </div>
+        <div class="div-recommendation-box">
+            {{#boardList}}
+                <div onclick="location.href='/boards/{{id}}'">
+                    <div>
+                        <img class="div-company-img" src="../images/{{businessName}}.jpg"
+                             alt="/images/business.png" style="width:100%">
+                    </div>
+                    <div class="btn-like">
+                        <div class="div-recommendation-text-1">{{field}}
+                            <span><a href="" class="text-body"><i class="fa-regular fa-star"></i></a></span>
+                        </div>
+                        <div class="div-recommendation-text-2">
+                            {{businessName}}
+                        </div>
+                    </div>
+                </div>
+            {{/boardList}}
+        </div>
+    </section>
+    <!-- 채용 공고 리스트 end -->
+</main>
+<!-- 바디 end -->
+{{>layout/footer}}

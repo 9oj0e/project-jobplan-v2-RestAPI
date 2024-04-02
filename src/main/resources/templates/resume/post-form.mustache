@@ -1,0 +1,101 @@
+{{>layout/header}}
+<!-- 바디 start -->
+<main class="main-card-container">
+    <div class="card div-card">
+        <form action="/resumes/post" method="post">
+            <div class="card-header card-title">
+                <h2>이력서 작성</h2>
+            </div>
+            <div class="card-body">
+                <h4>이력서 내용</h4>
+                <hr>
+                <table class="table mb-5">
+                    <tr>
+                        <td>제목</td>
+                        <td>
+                            <input name="title" type="text" class="form-control" value="열정 열정 열정">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>자기소개서</td>
+                        <td style="width: 415px">
+                            <textarea name="content" class="form-control" style="height: 300px;"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>경력 정보</td>
+                        <td style="width: 415px">
+                            <textarea name="career" class="form-control" style="height: 100px"></textarea>
+                        </td>
+                    </tr>
+                </table>
+                {{#sessionUser}}
+                    <h4>개인 정보</h4>
+                    <hr>
+                    <table class="table mb-5">
+                        <tr>
+                            <td>이름</td>
+                            <td>
+                                {{name}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>생년월일</td>
+                            <td>
+                                {{birthdate}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>휴대전화</td>
+                            <td>
+                                {{phoneNumber}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>이메일</td>
+                            <td>
+                                {{email}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>주소</td>
+                            <td>
+                                {{address}}
+                            </td>
+                        </tr>
+                    </table>
+                    <h4>학력 정보</h4>
+                    <hr>
+                    <table class="table mb-5">
+                        <tr>
+                            <td>학력</td>
+                            <td>
+                                {{educationLevel}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>학교명</td>
+                            <td>
+                                {{schoolName}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>전공</td>
+                            <td>
+                                {{major}}
+                            </td>
+                        </tr>
+                    </table>
+                {{/sessionUser}}
+            </div>
+            <div class="card-footer">
+                <div class="button-post-cancel">
+                    <button type="button" onclick="location.href='/'" class="btn btn-outline-dark">취소</button>
+                    <button type="submit" class="btn btn-outline-dark">등록</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+<!-- 바디 end -->
+{{>layout/footer}}
