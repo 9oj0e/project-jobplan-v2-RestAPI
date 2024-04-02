@@ -16,23 +16,23 @@ public class SkillService {
     private final UserJpaRepository userJpaRepository;
 
     @Transactional
-    public void createSkillList(SkillRequest.DTO dto, int userId) {
+    public SkillResponse.DTO createSkillList(SkillRequest.DTO dto, int userId) {
         User user = userJpaRepository.findById(userId).get();
 
-        List<Skill> skillList = new ArrayList<>();
+        List<Skill> skills = new ArrayList<>();
         for (String skillName : dto.getSkill()) {
             Skill skill = Skill.builder()
                     .user(user)
                     .name(skillName)
                     .build();
-            skillList.add(skill);
+            skills.add(skill);
         }
         // dto.getSkill().stream().forEach(s -> new Skill(user, s));
         List<Skill> skillFound = skillJpaRepository.findByUserId(userId).orElse(null);
         if (skillFound != null) {
             skillJpaRepository.deleteAll(skillFound);
         }
-
-        skillJpaRepository.saveAll(skillList);
+        skillJpaRepository.saveAll(skills);
+        return new SkillResponse.DTO(skills);
     }
 }
