@@ -17,7 +17,7 @@ public class MyExceptionHandler {
         ApiUtil<?> apiUtil = new ApiUtil<>(400, e.getMessage());
         return new ResponseEntity<>(apiUtil, HttpStatus.BAD_REQUEST);
     }
-
+    
     @ExceptionHandler(Exception401.class)
     public ResponseEntity<?> ex401(Exception401 e){
         ApiUtil<?> apiUtil = new ApiUtil<>(401, e.getMessage());
@@ -29,8 +29,9 @@ public class MyExceptionHandler {
         ApiUtil<?> apiUtil = new ApiUtil<>(403, e.getMessage());
         return new ResponseEntity<>(apiUtil, HttpStatus.FORBIDDEN);
     }
-
+    
     @ExceptionHandler(Exception404.class)
+
     public ResponseEntity<?> ex404(Exception404 e){
         ApiUtil<?> apiUtil = new ApiUtil<>(404, e.getMessage());
         return new ResponseEntity<>(apiUtil, HttpStatus.NOT_FOUND);

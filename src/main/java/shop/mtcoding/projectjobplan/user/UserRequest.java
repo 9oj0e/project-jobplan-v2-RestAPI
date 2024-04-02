@@ -52,7 +52,6 @@ public class UserRequest {
         private String schoolName;
         private String major;
         private String educationLevel; // 고졸/초대졸/대졸
-        private String career; // 회사명+경력
         // 회사 정보
         private String employerIdNumber; // 사업자번호
         private String businessName; // 기업이름
