@@ -17,7 +17,7 @@ public class SubscribeController {
     private final HttpSession session;
     private final SubscribeService subscribeService;
 
-    @PostMapping("api/boards/{boardId}/subscribe") // 공고 구독
+    @PostMapping("/api/boards/{boardId}/subscription") // 공고 구독
     public ResponseEntity<?> subscribeBoard(@PathVariable int boardId) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         Subscribe subscribe = subscribeService.createBoardSubscription(sessionUser, boardId);
@@ -25,7 +25,7 @@ public class SubscribeController {
         return ResponseEntity.ok(new ApiUtil(subscribe));
     }
 
-    @PostMapping("api/resumes/{resumeId}/subscribe") // 이력서 구독
+    @PostMapping("api/resumes/{resumeId}/subscription") // 이력서 구독
     public ResponseEntity<?> subscribeResume(@PathVariable int resumeId) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         Subscribe subscribe = subscribeService.createResumeSubscription(sessionUser, resumeId);
@@ -33,7 +33,7 @@ public class SubscribeController {
         return ResponseEntity.ok(new ApiUtil(subscribe));
     }
 
-    @GetMapping("api/users/{userId}") // 구독 리스트
+    @GetMapping("/api/subscription") // 구독 리스트
     public ResponseEntity<?> subscription(@PathVariable int userId,
                                HttpServletRequest request,
                                @PageableDefault(size = 3) Pageable pageable) {
@@ -47,7 +47,7 @@ public class SubscribeController {
         return ResponseEntity.ok(new ApiUtil(subscription));
     }
 
-    @DeleteMapping("api/boards/{boardId}") // 구독 취소
+    @DeleteMapping("/api/boards/{boardId}/subscription") // 구독 취소
     public ResponseEntity<?> unsubscribeBoard(@PathVariable int boardId, @RequestParam boolean fromSubscription) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         subscribeService.removeBoardSubscription(boardId, sessionUser.getId());
@@ -59,7 +59,7 @@ public class SubscribeController {
         }
     }
 
-    @DeleteMapping("api/resumes/{resumeId}") // 구독 취소
+    @DeleteMapping("/api/resumes/{resumeId}/subscription") // 구독 취소
     public ResponseEntity<?> unsubscribeResume(@PathVariable int resumeId, @RequestParam boolean fromSubscription) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         subscribeService.removeResumeSubscription(resumeId, sessionUser.getId());

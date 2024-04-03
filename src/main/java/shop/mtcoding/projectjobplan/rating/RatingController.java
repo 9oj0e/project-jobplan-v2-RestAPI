@@ -17,7 +17,7 @@ public class RatingController {
     private final HttpSession session;
     private final RatingService ratingService;
 
-    @PostMapping("api/boards/{boardId}")
+    @PostMapping("/api/boards/{boardId}/rating")
     public ResponseEntity<?> rateBoard(@PathVariable int boardId, @RequestBody RatingRequest.RateBoardUser requestDTO) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         RatingResponse.DTO respDTO  = ratingService.createRating(sessionUser, requestDTO);
@@ -25,7 +25,7 @@ public class RatingController {
         return ResponseEntity.ok(new ApiUtil(respDTO));
     }
 
-    @PostMapping("api/resumes/{resumeId}")
+    @PostMapping("/api/resumes/{resumeId}/rating")
     public ResponseEntity<?> rateResume(@PathVariable int resumeId, @RequestBody RatingRequest.RateResumeUser requestDTO) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         RatingResponse.DTO respDTO = ratingService.createRating(sessionUser, requestDTO);
