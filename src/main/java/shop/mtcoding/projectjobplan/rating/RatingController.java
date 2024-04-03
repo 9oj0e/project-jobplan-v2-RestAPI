@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import shop.mtcoding.projectjobplan._core.utils.ApiUtil;
+import shop.mtcoding.projectjobplan.user.SessionUser;
 import shop.mtcoding.projectjobplan.user.User;
 
 @RequiredArgsConstructor
@@ -19,7 +20,7 @@ public class RatingController {
 
     @PostMapping("/api/boards/{boardId}/rating")
     public ResponseEntity<?> rateBoard(@PathVariable int boardId, @RequestBody RatingRequest.RateBoardUser requestDTO) {
-        User sessionUser = (User) session.getAttribute("sessionUser");
+        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         RatingResponse.DTO respDTO  = ratingService.createRating(sessionUser, requestDTO);
 
         return ResponseEntity.ok(new ApiUtil(respDTO));
@@ -27,7 +28,7 @@ public class RatingController {
 
     @PostMapping("/api/resumes/{resumeId}/rating")
     public ResponseEntity<?> rateResume(@PathVariable int resumeId, @RequestBody RatingRequest.RateResumeUser requestDTO) {
-        User sessionUser = (User) session.getAttribute("sessionUser");
+        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         RatingResponse.DTO respDTO = ratingService.createRating(sessionUser, requestDTO);
 
         return ResponseEntity.ok(new ApiUtil(respDTO));
