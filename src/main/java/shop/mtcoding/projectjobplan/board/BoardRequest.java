@@ -3,6 +3,7 @@ package shop.mtcoding.projectjobplan.board;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import shop.mtcoding.projectjobplan.user.SessionUser;
 import shop.mtcoding.projectjobplan.user.User;
 
 import java.util.ArrayList;
@@ -29,6 +30,8 @@ public class BoardRequest {
         private String closingDate;
 
         private List<String> skill = new ArrayList<>();
+
+
 
         public Board toEntity(User user) {
             return Board.builder()

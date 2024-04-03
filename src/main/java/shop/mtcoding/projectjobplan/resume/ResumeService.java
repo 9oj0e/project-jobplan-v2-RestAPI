@@ -11,6 +11,7 @@ import shop.mtcoding.projectjobplan.rating.Rating;
 import shop.mtcoding.projectjobplan.rating.RatingJpaRepository;
 import shop.mtcoding.projectjobplan.subscribe.Subscribe;
 import shop.mtcoding.projectjobplan.subscribe.SubscribeJpaRepository;
+import shop.mtcoding.projectjobplan.user.SessionUser;
 import shop.mtcoding.projectjobplan.user.User;
 import shop.mtcoding.projectjobplan.user.UserJpaRepository;
 
@@ -26,8 +27,9 @@ public class ResumeService {
     private final SubscribeJpaRepository subscribeJpaRepository;
 
     @Transactional
-    public ResumeResponse.SaveDTO createResume(ResumeRequest.PostDTO requestDTO, User sessionUser) {
-        Resume resume = new Resume(requestDTO, sessionUser);
+    public ResumeResponse.SaveDTO createResume(ResumeRequest.PostDTO requestDTO, SessionUser sessionUser) {
+        User user = userJpaRepository.findById(sessionUser.getId()).orElseThrow(() -> new Exception404("조회된 데이터가 없습니다."));
+        Resume resume = new Resume(requestDTO, user);
         resumeJpaRepository.save(resume);
         return new ResumeResponse.SaveDTO(resume);
     }
@@ -86,7 +88,7 @@ public class ResumeService {
     }
 
     @Transactional // 이력서수정
-    public ResumeResponse.UpdateDTO setResume(int id, ResumeRequest.UpdateDTO requestDTO, User sessionUser) {
+    public ResumeResponse.UpdateDTO setResume(int id, ResumeRequest.UpdateDTO requestDTO, SessionUser sessionUser) {
         // 조회 및 예외처리
         Resume resume = resumeJpaRepository.findById(id)
                 .orElseThrow(() -> new Exception404("해당 이력서를 찾을 수 없습니다."));
@@ -102,7 +104,7 @@ public class ResumeService {
     }
 
     @Transactional // 이력서삭제
-    public void removeResume(int id, User sessionUser) {
+    public void removeResume(int id, SessionUser sessionUser) {
         // 조회 및 예외처리
         Resume resume = resumeJpaRepository.findById(id)
                 .orElseThrow(() -> new Exception404("해당 이력서를 찾을 수 없습니다."));

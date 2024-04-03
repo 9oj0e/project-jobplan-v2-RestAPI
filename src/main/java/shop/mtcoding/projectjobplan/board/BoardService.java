@@ -12,7 +12,9 @@ import shop.mtcoding.projectjobplan.skill.Skill;
 import shop.mtcoding.projectjobplan.skill.SkillJpaRepository;
 import shop.mtcoding.projectjobplan.subscribe.Subscribe;
 import shop.mtcoding.projectjobplan.subscribe.SubscribeJpaRepository;
+import shop.mtcoding.projectjobplan.user.SessionUser;
 import shop.mtcoding.projectjobplan.user.User;
+import shop.mtcoding.projectjobplan.user.UserJpaRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class BoardService {
+    private final UserJpaRepository userJpaRepository;
     private final BoardJpaRepository boardJpaRepository;
     private final BoardQueryRepository boardQueryRepository;
     private final RatingJpaRepository ratingJpaRepository;
@@ -28,8 +31,9 @@ public class BoardService {
     private final SkillJpaRepository skillJpaRepository;
 
     @Transactional
-    public BoardResponse.SaveDTO createBoard(BoardRequest.SaveDTO requestDTO, User sessionUser) {
-        Board board = boardJpaRepository.save(requestDTO.toEntity(sessionUser));
+    public BoardResponse.SaveDTO createBoard(BoardRequest.SaveDTO requestDTO, SessionUser sessionUser) {
+        User user = userJpaRepository.findById(sessionUser.getId()).orElseThrow(() -> new Exception404("조회된 데이터가 없습니다."));
+        Board board = boardJpaRepository.save(requestDTO.toEntity(user));
         List<Skill> skillList = new ArrayList<>();
         for (String skillName : requestDTO.getSkill()) {
             Skill skill = Skill.builder()
@@ -96,7 +100,7 @@ public class BoardService {
     }
 
     // 공고수정폼
-    public BoardResponse.UpdateFormDTO getBoard(int boardId, User sessionUser) {
+    public BoardResponse.UpdateFormDTO getBoard(int boardId, SessionUser sessionUser) {
         // 조회 및 예외 처리
         Board board = boardJpaRepository.findById(boardId)
                 .orElseThrow(() -> new Exception404("해당 공고를 찾을 수 없습니다."));
@@ -110,7 +114,7 @@ public class BoardService {
     }
 
     @Transactional // 공고수정
-    public BoardResponse.UpdateDTO setBoard(int boardId, BoardRequest.UpdateDTO requestDTO, User sessionUser) {
+    public BoardResponse.UpdateDTO setBoard(int boardId, BoardRequest.UpdateDTO requestDTO, SessionUser sessionUser) {
         // 조회 및 예외 처리
         Board board = boardJpaRepository.findById(boardId)
                 .orElseThrow(() -> new Exception404("해당 공고를 찾을 수 없습니다."));
@@ -142,7 +146,7 @@ public class BoardService {
 
     // 공고삭제
     @Transactional
-    public void removeBoard(int id, User sessionUser) {
+    public void removeBoard(int id, SessionUser sessionUser) {
         // 조회 및 예외 처리
         Board board = boardJpaRepository.findById(id)
                 .orElseThrow(() -> new Exception404("해당 공고를 찾을 수 없습니다."));
