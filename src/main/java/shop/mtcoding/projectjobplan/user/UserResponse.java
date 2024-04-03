@@ -298,7 +298,7 @@ public class UserResponse {
             }
             // 이력서 제목 포멧
             public String getTitle() {
-                return FormatUtil.stringFormatter(this.title);
+                return FormatUtil.stringFormatter(this.resumeTitle);
             }
 
             // 공고 제목 포멧
