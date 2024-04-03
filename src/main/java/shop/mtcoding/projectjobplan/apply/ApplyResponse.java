@@ -30,6 +30,7 @@ public class ApplyResponse {
         }
 
         // 이력서 정보
+        @Data
         public class ResumeDTO {
             private Integer resumeId;
             private String resumeTitle;
