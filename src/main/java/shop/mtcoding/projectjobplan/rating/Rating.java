@@ -21,11 +21,11 @@ public class Rating {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rater_id")
-    private User rater;
+    private User rater; // 평가자
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id")
-    private User subject;
+    private User subject; // 피평가자
 
     @Column(nullable = false)
     private Double rating;

@@ -6,11 +6,11 @@ import java.sql.Timestamp;
 
 public class RatingResponse {
 
-    @Data
+    @Data // 평가 결과 returnDTO
     public static class DTO {
         private Integer id;
-        private Integer raterId;
-        private Integer subjectId;
+        private Integer raterId; // 평가자 id
+        private Integer subjectId; // 피평가자 id
         private Double rating;
         private Timestamp createdAt;
 

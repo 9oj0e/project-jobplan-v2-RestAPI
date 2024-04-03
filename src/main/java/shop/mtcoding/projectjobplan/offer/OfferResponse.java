@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OfferResponse {
-    @Data
+    @Data // 제안 폼
     public static class OfferFormDTO {
         // 이력서 정보
         private Integer resumeId;
@@ -16,10 +16,9 @@ public class OfferResponse {
         private String username;
         private String career;
 
-        // 공고 리스트
+        // 공고 목록
         private List<BoardDTO> boardList = new ArrayList<>();
 
-        // 제안 폼 DTO
         OfferFormDTO(Resume resume, List<Board> boardList) {
             this.resumeId = resume.getId();
             this.title = resume.getTitle();
@@ -28,8 +27,7 @@ public class OfferResponse {
             this.boardList = boardList.stream().map(board -> new BoardDTO(board)).toList();
         }
 
-        // 공고 정보
-        @Data
+        @Data // 공고 정보
         public class BoardDTO {
             private Integer boardId;
             private String boardTitle;
@@ -46,7 +44,7 @@ public class OfferResponse {
 
     }
 
-    @Data
+    @Data // 제안 정보 returnDTO
     public static class OfferDTO {
         private Integer resumeId;
         private Integer boardId;
@@ -59,7 +57,7 @@ public class OfferResponse {
         }
     }
 
-    @Data
+    @Data // 제안 수락 여부 returnDTO
     public static class UpdateDTO {
         private Integer offerId;
         private Boolean status;

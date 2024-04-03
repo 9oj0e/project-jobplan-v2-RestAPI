@@ -10,7 +10,7 @@ import java.util.List;
 
 public class BoardRequest {
 
-    @Data
+    @Data // 공고 작성하기
     public static class SaveDTO {
         @Size(min = 1, max = 20, message = "제목은 20자를 초과할 수 없습니다.")
         @NotEmpty
@@ -30,7 +30,6 @@ public class BoardRequest {
 
         private List<String> skill = new ArrayList<>();
 
-
         public Board toEntity(User user) {
             return Board.builder()
                     .user(user)
@@ -45,7 +44,7 @@ public class BoardRequest {
         }
     }
 
-    @Data
+    @Data // 공고 수정하기
     public static class UpdateDTO {
         @Size(min = 1, max = 20, message = "제목은 20자를 초과할 수 없습니다.")
         @NotEmpty

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class UserRequest {
 
-    @Data
+    @Data // 회원가입
     public static class JoinDTO {
         // 회원 정보
         @Size(min = 3, max = 10, message = "유저네임은 3자 미만,10자를 초과할 수 없습니다.")
@@ -38,13 +38,13 @@ public class UserRequest {
         private String businessName; // 기업이름
     }
 
-    @Data
+    @Data // 로그인
     public static class LoginDTO {
         private String username;
         private String password;
     }
 
-    @Data
+    @Data // 회원정보 수정
     public static class UpdateDTO {
         // 회원 정보
         @Size(min = 4, max = 20)
@@ -66,7 +66,7 @@ public class UserRequest {
         private String businessName; // 기업이름
     }
 
-    @Data
+    @Data // 스킬 추가하기
     public static class SkillDTO {
         private List<String> skill = new ArrayList<>();
     }

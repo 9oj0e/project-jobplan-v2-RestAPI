@@ -127,9 +127,9 @@ public class BoardResponse {
         }
 
         public List<RecommendationDTO> getRecommendationList() {
-            if (!recommendationList.isEmpty()) {
+            if (!recommendationList.isEmpty()) { // 추천 공고가 있으면 그대로 반환
                 return this.recommendationList;
-            } else { // sessionUser가 없으면, 최근 공고 3개 띄우기
+            } else { // sessionUser가 없거나 기술이 없는 회원은, 최근 공고 3개 띄우기
                 return boardList.stream()
                         .map(boardDTO -> new RecommendationDTO(boardDTO.id, boardDTO.title, boardDTO.field, boardDTO.businessName))
                         .limit(3)

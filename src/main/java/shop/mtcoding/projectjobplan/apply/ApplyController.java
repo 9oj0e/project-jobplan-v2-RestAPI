@@ -13,7 +13,7 @@ public class ApplyController {
     private final HttpSession session;
     private final ApplyService applyService;
 
-    @GetMapping("/api/boards/{boardId}/applies")
+    @GetMapping("/api/boards/{boardId}/applies") // 공고 지원 폼
     public ResponseEntity<?> applyForm(@PathVariable int boardId) {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         ApplyResponse.ApplyFormDTO applyFormDTO = applyService.getBoardAndResume(boardId, sessionUser);
@@ -21,7 +21,7 @@ public class ApplyController {
         return ResponseEntity.ok(new ApiUtil(applyFormDTO));
     }
 
-    @PostMapping("/api/boards/{boardId}/applies")
+    @PostMapping("/api/boards/{boardId}/applies") // 공고 지원
     public ResponseEntity<?> apply(@PathVariable int boardId, @RequestBody ApplyRequest.ApplyDTO requestDTO) {
         ApplyResponse.ApplyDTO applyDTO = applyService.createApply(requestDTO);
 

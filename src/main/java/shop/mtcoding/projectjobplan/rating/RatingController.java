@@ -16,19 +16,19 @@ public class RatingController {
     private final HttpSession session;
     private final RatingService ratingService;
 
-    @PostMapping("/api/boards/{boardId}/rating")
+    @PostMapping("/api/boards/{boardId}/rating") // 공고 주인 평가
     public ResponseEntity<?> rateBoard(@PathVariable int boardId, @RequestBody RatingRequest.RateBoardUser requestDTO) {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
-        RatingResponse.DTO respDTO = ratingService.createRating(sessionUser, requestDTO);
+        RatingResponse.DTO responseDTO = ratingService.createRating(sessionUser, requestDTO);
 
-        return ResponseEntity.ok(new ApiUtil(respDTO));
+        return ResponseEntity.ok(new ApiUtil(responseDTO));
     }
 
-    @PostMapping("/api/resumes/{resumeId}/rating")
+    @PostMapping("/api/resumes/{resumeId}/rating") // 이력서 주인 평가
     public ResponseEntity<?> rateResume(@PathVariable int resumeId, @RequestBody RatingRequest.RateResumeUser requestDTO) {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
-        RatingResponse.DTO respDTO = ratingService.createRating(sessionUser, requestDTO);
+        RatingResponse.DTO responseDTO = ratingService.createRating(sessionUser, requestDTO);
 
-        return ResponseEntity.ok(new ApiUtil(respDTO));
+        return ResponseEntity.ok(new ApiUtil(responseDTO));
     }
 }

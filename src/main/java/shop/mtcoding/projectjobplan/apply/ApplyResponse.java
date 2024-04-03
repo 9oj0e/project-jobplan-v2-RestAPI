@@ -10,14 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ApplyResponse {
-    @Data
+    @Data // 공고 지원 폼
     public static class ApplyFormDTO {
         // 공고 정보
         private Integer boardId;
         private String boardTitle;
         private String businessName;
         private Timestamp closingDate;
-        // 이력서 리스트
+        // 이력서 목록
         private List<ResumeDTO> resumeList = new ArrayList<>();
 
         public ApplyFormDTO(Board board, List<Resume> resumeList) {
@@ -28,8 +28,7 @@ public class ApplyResponse {
             this.resumeList = resumeList.stream().map(resume -> new ResumeDTO(resume)).toList();
         }
 
-        // 이력서 정보
-        @Data
+        @Data // 이력서 정보
         public class ResumeDTO {
             private Integer resumeId;
             private String resumeTitle;
@@ -40,18 +39,18 @@ public class ApplyResponse {
                 this.resumeTitle = resume.getTitle();
                 this.createdAt = resume.getCreatedAt();
             }
-
+            // 이력서 작성 시각 포멧
             public String getCreatedAt() {
                 return FormatUtil.timeFormatter(this.createdAt);
             }
         }
-
+        // 공고 마감 일자 포멧
         private String getClosingDate() {
             return FormatUtil.timeFormatter(this.closingDate);
         }
     }
 
-    @Data
+    @Data // 지원 정보 returnDTO
     public static class ApplyDTO {
         private Integer resumeId;
         private Integer boardId;
@@ -64,7 +63,7 @@ public class ApplyResponse {
         }
     }
 
-    @Data
+    @Data // 지원 합격/불합격 처리 결과 returnDTO
     public static class UpdateDTO {
         private Integer applyId;
         private Boolean status;

@@ -17,7 +17,7 @@ public class ResumeRequest {
         private String career; // 경력 정보
     }
 
-    @Data
+    @Data // 이력서 수정하기
     public static class UpdateDTO {
         @Size(min = 1, max = 20, message = "제목은 20자를 초과할 수 없습니다.")
         @NotEmpty
