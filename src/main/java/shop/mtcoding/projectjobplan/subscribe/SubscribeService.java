@@ -18,8 +18,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class SubscribeService {
-    private final SubscribeJpaRepository subscribeJpaRepository;
     private final UserJpaRepository userJpaRepository;
+    private final SubscribeJpaRepository subscribeJpaRepository;
     private final BoardJpaRepository boardJpaRepository;
     private final ResumeJpaRepository resumeJpaRepository;
 
@@ -46,16 +46,16 @@ public class SubscribeService {
         return new SubscribeResponse.ResumeDTO(result.getResume());
     }
 
-    @Transactional(readOnly = true)
-    public SubscribeResponse.DTO getSubscription(int userId, Pageable pageable) { // 구독 리스트 불러오기
+    @Transactional(readOnly = true) // 구독 목록보기
+    public SubscribeResponse.DTO getSubscription(int userId, Pageable pageable) {
         User user = userJpaRepository.findById(userId)
                 .orElseThrow(() -> new Exception404("존재하지 않는 유저입니다."));
         List<Subscribe> subscription = subscribeJpaRepository.findByUserId(userId).get();
-
+        // DTO가 완성되는 시점까지 DB 연결 유지
         return new SubscribeResponse.DTO(user, subscription, pageable);
     }
 
-    @Transactional // 공고 구독 중지
+    @Transactional // 공고 구독 취소
     public void removeBoardSubscription(int boardId, int userId) {
         Subscribe subscribe = subscribeJpaRepository.findByBoardIdAndUserId(boardId, userId)
                 .orElseThrow(() -> new Exception404("구독되어 있지 않습니다."));
@@ -63,7 +63,7 @@ public class SubscribeService {
         subscribeJpaRepository.delete(subscribe);
     }
 
-    @Transactional // 이력서 구독 중지
+    @Transactional // 이력서 구독 취소
     public void removeResumeSubscription(int resumeId, int userId) {
         Subscribe subscribe = subscribeJpaRepository.findByResumeIdAndUserId(resumeId, userId)
                         .orElseThrow(() -> new Exception404("구독되어 있지 않습니다."));

@@ -1,8 +1,5 @@
 package shop.mtcoding.projectjobplan.user;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +9,7 @@ import shop.mtcoding.projectjobplan.apply.Apply;
 import shop.mtcoding.projectjobplan.board.Board;
 import shop.mtcoding.projectjobplan.offer.Offer;
 import shop.mtcoding.projectjobplan.resume.Resume;
+import shop.mtcoding.projectjobplan.skill.Skill;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -19,7 +17,7 @@ import java.util.List;
 public class UserResponse {
 
     @Data
-    public static class JoinDTO{
+    public static class JoinDTO {
         private Integer userId;
         private String username;
         private String name;
@@ -118,11 +116,11 @@ public class UserResponse {
         private List<SkillDTO> skillList;
         private Boolean hasSkill;
         // 게시물 정보
-        private Page<ResumeDTO> resumeList;
-        private Page<BoardDTO> boardList;
+        private List<ResumeDTO> resumeList;
+        private List<BoardDTO> boardList;
         // 지원자 현황 및 지원 현황 & 제안 현황
-        private Page<ApplyDTO> applyList;
-        private Page<OfferDTO> offerList;
+        private List<ApplyDTO> applyList;
+        private List<OfferDTO> offerList;
         // Integer applyCount = applyList.getSize(); // 지원자 및 지원 갯수
         // Integer offerCount = offerList.getSize(); // 제안 갯수
 
@@ -134,7 +132,7 @@ public class UserResponse {
             }
         }
 
-        public ProfileDTO(User user, List<Apply> applyList, List<Offer> offerList, Double rating, Pageable pageable) {
+        public ProfileDTO(User user, List<Apply> applies, List<Offer> offers, Double rating, Pageable pageable) {
             this.id = user.getId();
             this.username = user.getUsername();
             this.password = user.getPassword();
@@ -152,23 +150,24 @@ public class UserResponse {
                 this.isEmployer = user.getIsEmployer();
                 this.employerIdNumber = user.getEmployerIdNumber();
                 this.businessName = user.getBusinessName();
-                List<BoardDTO> boardList = user.getBoards().stream().map(board -> new BoardDTO(board)).toList();
-                this.boardList = PagingUtil.pageConverter(pageable, boardList);
+                this.boardList = user.getBoards().stream().map(board -> new BoardDTO(board)).toList();
+                // this.boardList = PagingUtil.pageConverter(pageable, boardList);
             } else {
-                List<ResumeDTO> resumeList = user.getResumes().stream().map(resume -> new ResumeDTO(resume)).toList();
-                this.resumeList = PagingUtil.pageConverter(pageable, resumeList);
+                this.resumeList = user.getResumes().stream().map(resume -> new ResumeDTO(resume)).toList();
+                // this.resumeList = PagingUtil.pageConverter(pageable, resumeList);
                 this.skillList = user.getSkills().stream().map(skill -> new SkillDTO(skill.getName())).toList();
             }
-            List<ApplyDTO> applies = applyList.stream().map(apply -> new ApplyDTO(apply)).toList();
-            this.applyList = PagingUtil.pageConverter(pageable, applies); // todo : pagination?
-            List<OfferDTO> offers = offerList.stream().map(offer -> new OfferDTO(offer)).toList();
-            this.offerList = PagingUtil.pageConverter(pageable, offers);
+            this.applyList = applies.stream().map(apply -> new ApplyDTO(apply)).toList();
+            // this.applyList = PagingUtil.pageConverter(pageable, applies); // todo : pagination?
+            this.offerList = offers.stream().map(offer -> new OfferDTO(offer)).toList();
+            // this.offerList = PagingUtil.pageConverter(pageable, offers);
         }
-
+        // 평점 포멧
         public Double getRating() {
             return FormatUtil.numberFormatter(this.rating);
         }
 
+        @Data // 공고 정보
         public class BoardDTO {
             private Integer id;
             private String title;
@@ -183,16 +182,17 @@ public class UserResponse {
                 this.position = board.getPosition();
                 this.openingDate = board.getOpeningDate();
             }
-
+            // 생성 시각 포멧
             public String getOpeningDate() {
                 return FormatUtil.timeFormatter(this.openingDate);
             }
-
+            // 공고 제목 포멧
             public String getTitle() {
                 return FormatUtil.stringFormatter(this.title);
             }
         }
-        @Data
+
+        @Data // 이력서 정보
         public class ResumeDTO {
             private Integer id;
             private String title;
@@ -203,30 +203,30 @@ public class UserResponse {
                 this.title = resume.getTitle();
                 this.createdAt = resume.getCreatedAt();
             }
-
+            // 이력서 제목 포멧
             public String getTitle() {
                 return FormatUtil.stringFormatter(this.title);
             }
+            // 원래 제목 보기
             public String getOgTitle() {
                 return this.title;
             }
-
+            // 생성 시각 포멧
             public String getCreatedAt() {
                 return FormatUtil.timeFormatter(this.createdAt);
             }
         }
-        @Data
+
+        @Data // 지원 현황
         public class ApplyDTO {
             // 공고 정보
             private Integer resumeId;
             private String resumeTitle;
             private String applicantName;
-
             // 이력서 정보
             private Integer boardId;
             private String boardTitle;
             private String businessName;
-
             // 제안 정보
             private Integer id;
             private Boolean status;
@@ -243,11 +243,12 @@ public class UserResponse {
                 this.createdAt = apply.getCreatedAt();
                 this.status = apply.getStatus();
             }
-
+            // 이력서 제목 포멧
             public String getResumeTitle() {
                 return FormatUtil.stringFormatter(this.resumeTitle);
             }
 
+            // 공고 제목 포멧
             public String getBoardTitle() {
                 return FormatUtil.stringFormatter(this.boardTitle);
             }
@@ -267,41 +268,40 @@ public class UserResponse {
         public class OfferDTO {
             // 이력서 정보
             private Integer resumeId;
-            private String title;
+            private String resumeTitle;
             private String username;
             private String career;
-
             // 공고 정보
             private Integer boardId;
             private String boardTitle;
             private String position;
             private String field;
             private String businessName;
-
             // 제안 정보
             private Integer id;
             private Boolean status;
             private String createdAt;
 
             public OfferDTO(Offer offer) {
-                this.resumeId = offer.getResume().getId();
-                this.title = offer.getResume().getTitle();
-                this.username = offer.getResume().getUser().getName();
-                this.career = offer.getResume().getCareer();
+                this.businessName = offer.getBoard().getUser().getBusinessName();
                 this.boardId = offer.getBoard().getId();
                 this.boardTitle = offer.getBoard().getTitle();
                 this.position = offer.getBoard().getPosition();
                 this.field = offer.getBoard().getField();
-                this.businessName = offer.getBoard().getUser().getBusinessName();
+                this.username = offer.getResume().getUser().getName();
+                this.resumeId = offer.getResume().getId();
+                this.resumeTitle = offer.getResume().getTitle();
+                this.career = offer.getResume().getCareer();
                 this.id = offer.getId();
                 this.status = offer.getStatus();
                 this.createdAt = offer.getCreatedAt();
             }
-
+            // 이력서 제목 포멧
             public String getTitle() {
-                return FormatUtil.stringFormatter(this.title);
+                return FormatUtil.stringFormatter(this.resumeTitle);
             }
 
+            // 공고 제목 포멧
             public String getBoardTitle() {
                 return FormatUtil.stringFormatter(this.boardTitle);
             }
@@ -316,7 +316,8 @@ public class UserResponse {
                 }
             }
         }
-        @Data
+
+        @Data // 추가된 스킬 정보 returnDTO
         public class SkillDTO {
             private String skillName;
 
@@ -327,29 +328,13 @@ public class UserResponse {
     }
 
     @Data
-    public static class UpdateDTO {
-        private Integer id;
-        private Character gender;
-        private String phoneNumber;
-        private String address;
-        private String email;
-        private String schoolName;
-        private String major;
-        private String educationLevel;
-        private String employerIdNumber;
-        private String businessName;
+    public static class SkillDTO {
+        private Integer userId;
+        private String skillName;
 
-        public UpdateDTO(User user) {
-            this.id = user.getId();
-            this.gender = user.getGender();
-            this.phoneNumber = user.getPhoneNumber();
-            this.address = user.getAddress();
-            this.email = user.getEmail();
-            this.schoolName = user.getSchoolName();
-            this.major = user.getMajor();
-            this.educationLevel = user.getEducationLevel();
-            this.employerIdNumber = user.getEmployerIdNumber();
-            this.businessName = user.getBusinessName();
+        public SkillDTO(Skill skill) {
+            this.userId = skill.getUser().getId();
+            this.skillName = skill.getName();
         }
     }
 }

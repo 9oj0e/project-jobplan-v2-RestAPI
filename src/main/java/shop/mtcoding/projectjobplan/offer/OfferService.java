@@ -9,7 +9,6 @@ import shop.mtcoding.projectjobplan.board.BoardJpaRepository;
 import shop.mtcoding.projectjobplan.resume.Resume;
 import shop.mtcoding.projectjobplan.resume.ResumeJpaRepository;
 import shop.mtcoding.projectjobplan.user.SessionUser;
-import shop.mtcoding.projectjobplan.user.User;
 
 import java.util.List;
 
@@ -17,10 +16,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OfferService {
     private final OfferJpaRepository offerJpaRepository;
-    private final ResumeJpaRepository resumeJpaRepository;
     private final BoardJpaRepository boardJpaRepository;
+    private final ResumeJpaRepository resumeJpaRepository;
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true) // 이력서 제안 폼
     public OfferResponse.OfferFormDTO getResumeAndBoard(int resumeId, SessionUser sessionUser) {
         Resume resume = resumeJpaRepository.findById(resumeId)
                 .orElseThrow(() -> new Exception404("이력서 정보를 찾을 수 없습니다."));
@@ -30,7 +29,7 @@ public class OfferService {
         return new OfferResponse.OfferFormDTO(resume, boardList);
     }
 
-    @Transactional
+    @Transactional // 제안
     public OfferResponse.OfferDTO createOffer(OfferRequest.OfferDTO requestDTO) {
         Board board = boardJpaRepository.findById(requestDTO.getBoardId())
                 .orElseThrow(() -> new Exception404("게시글 정보를 찾을 수 없습니다."));
@@ -42,7 +41,7 @@ public class OfferService {
         return new OfferResponse.OfferDTO(offer);
     }
 
-    @Transactional
+    @Transactional // 제안 수락 및 거절
     public OfferResponse.UpdateDTO updateOffer(OfferRequest.UpdateDTO requestDTO) {
         Offer offer = offerJpaRepository.findById(requestDTO.getId())
                 .orElseThrow(() -> new Exception404("제안 이력이 없습니다."));
@@ -51,7 +50,7 @@ public class OfferService {
     }
 
 
-    @Transactional
+    @Transactional // 제안 취소
     public void removeOffer(int id) {
         Offer offer = offerJpaRepository.findById(id)
                 .orElseThrow(() -> new Exception404("취소할 제안이 없습니다."));

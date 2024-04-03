@@ -23,10 +23,10 @@ import java.util.Optional;
 public class ResumeService {
     private final UserJpaRepository userJpaRepository;
     private final ResumeJpaRepository resumeJpaRepository;
-    private final RatingJpaRepository ratingJpaRepository;
     private final SubscribeJpaRepository subscribeJpaRepository;
+    private final RatingJpaRepository ratingJpaRepository;
 
-    @Transactional
+    @Transactional // 이력서 작성
     public ResumeResponse.SaveDTO createResume(ResumeRequest.PostDTO requestDTO, SessionUser sessionUser) {
         User user = userJpaRepository.findById(sessionUser.getId()).orElseThrow(() -> new Exception404("조회된 데이터가 없습니다."));
         Resume resume = new Resume(requestDTO, user);
@@ -34,7 +34,7 @@ public class ResumeService {
         return new ResumeResponse.SaveDTO(resume);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true) // 이력서 상세보기
     public ResumeResponse.DetailDTO getResumeInDetail(int resumeId, Integer sessionUserId) {
         Resume resume = resumeJpaRepository.findById(resumeId).orElseThrow(() -> new Exception404("조회된 이력서가 없습니다."));
         Double rating = ratingJpaRepository.findRatingAvgByUserId(resume.getUser().getId()).orElse(0.0);
@@ -49,31 +49,32 @@ public class ResumeService {
             Optional<Rating> optionalRating = ratingJpaRepository.findByRaterIdAndSubjectId(sessionUserId, resume.getUser().getId());
             hasRated = optionalRating.isPresent() ? true : false;
         }
+        // DTO가 완성되는 시점까지 DB 연결 유지
         return new ResumeResponse.DetailDTO(resume, rating, isResumeOwner, hasSubscribed, hasRated);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true) // 이력서 목록보기
     public ResumeResponse.ListingsDTO getAllResume(Pageable pageable, Integer userId, String skill, String address, String keyword) {
-        List<Resume> resumeList;
-        List<User> userList; // 추천 인재 (기술을 많이 가진 인재 내림차순 정렬)
-        userList = userJpaRepository.findUsersWithMostSkills()
-                .orElseThrow(() -> new Exception500("DB 조회 불가"));
-        System.out.println("userList check : " + userList.size());
-        if (userId != null) {
+        List<Resume> resumeList; // 이력서..
+        if (userId != null) { // 작성자 id 검색
             resumeList = resumeJpaRepository.findByUserId(userId).orElseThrow(() -> new Exception404("조회된 이력서가 없습니다."));
-        } else if (skill != null) {
+        } else if (skill != null) { // 스킬 검색
             resumeList = resumeJpaRepository.findAllJoinUserWithSkill(skill).orElseThrow(() -> new Exception404("조회된 이력서가 없습니다."));
-        } else if (address != null) {
+        } else if (address != null) { // 지역 검색
             resumeList = resumeJpaRepository.findAllJoinUserWithAddress(address).orElseThrow(() -> new Exception404("조회된 이력서가 없습니다."));
-        } else if (keyword != null) {
+        } else if (keyword != null) { // 키워드 검색
             resumeList = resumeJpaRepository.findAllJoinUserWithKeyword(keyword).orElseThrow(() -> new Exception404("조회된 이력서가 없습니다."));
-        } else {
+        } else { // 전체 보기
             resumeList = resumeJpaRepository.findAllJoinUser().orElseThrow(() -> new Exception404("조회된 이력서가 없습니다."));
         }
+        List<User> userList; // 추천 인재 (스킬 기반 매칭) (빈 컬랙션 DTO에서 처리)
+        userList = userJpaRepository.findUsersWithMostSkills()
+                .orElseThrow(() -> new Exception500("DB 조회 불가"));
+        // DTO가 완성되는 시점까지 DB 연결 유지
         return new ResumeResponse.ListingsDTO(pageable, resumeList, userList, skill, address, keyword);
     }
 
-    // 이력서수정폼
+    // 이력서 수정 폼
     public ResumeResponse.UpdateFormDTO getResume(int id, User sessionUser) {
         // 조회 및 예외처리
         Resume resume = resumeJpaRepository.findById(id)
@@ -87,7 +88,7 @@ public class ResumeService {
         return new ResumeResponse.UpdateFormDTO(resumeJpaRepository.findById(id).get());
     }
 
-    @Transactional // 이력서수정
+    @Transactional // 이력서 수정
     public ResumeResponse.UpdateDTO setResume(int id, ResumeRequest.UpdateDTO requestDTO, SessionUser sessionUser) {
         // 조회 및 예외처리
         Resume resume = resumeJpaRepository.findById(id)
@@ -103,7 +104,7 @@ public class ResumeService {
         return new ResumeResponse.UpdateDTO(resume);
     }
 
-    @Transactional // 이력서삭제
+    @Transactional // 이력서 삭제
     public void removeResume(int id, SessionUser sessionUser) {
         // 조회 및 예외처리
         Resume resume = resumeJpaRepository.findById(id)

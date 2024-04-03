@@ -7,12 +7,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import shop.mtcoding.projectjobplan._core.utils.ApiUtil;
 import shop.mtcoding.projectjobplan.user.SessionUser;
-import shop.mtcoding.projectjobplan.user.User;
 
 @RequiredArgsConstructor
 @RestController
@@ -21,7 +19,7 @@ public class ResumeController {
     private final ResumeService resumeService;
 
 
-    @PostMapping("/api/resumes") // 이력서 작성 action
+    @PostMapping("/api/resumes") // 이력서 작성
     public ResponseEntity<?> post(@Valid @RequestBody ResumeRequest.PostDTO requestDTO, Errors errors) {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         ResumeResponse.SaveDTO resumeDTO = resumeService.createResume(requestDTO, sessionUser);
@@ -29,7 +27,7 @@ public class ResumeController {
         return ResponseEntity.ok(new ApiUtil(resumeDTO));
     }
 
-    @GetMapping("/api/resumes/{resumeId}")
+    @GetMapping("/api/resumes/{resumeId}") // 이력서 상세보기
     public ResponseEntity<?> detail(@PathVariable int resumeId) {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         Integer sessionUserId = sessionUser == null ? null : sessionUser.getId();
@@ -38,8 +36,7 @@ public class ResumeController {
         return ResponseEntity.ok(new ApiUtil(resumeDetail));
     }
 
-    //기업 메인
-    @GetMapping("/api/resumes")
+    @GetMapping("/api/resumes") // 이력서 목록보기 (기업 메인)
     public ResponseEntity<?> listings(HttpServletRequest request,
                                       @PageableDefault(size = 10) Pageable pageable,
                                       @RequestParam(value = "userid", required = false) Integer userid,
@@ -52,7 +49,7 @@ public class ResumeController {
     }
 
 
-    @PutMapping("/api/resumes/{resumeId}") // 이력서수정
+    @PutMapping("/api/resumes/{resumeId}") // 이력서 수정
     public ResponseEntity<?> update(@PathVariable int resumeId, @Valid @RequestBody ResumeRequest.UpdateDTO requestDTO, Errors errors) {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         ResumeResponse.UpdateDTO resumeDTO = resumeService.setResume(resumeId, requestDTO, sessionUser);
@@ -60,7 +57,7 @@ public class ResumeController {
         return ResponseEntity.ok(new ApiUtil(resumeDTO));
     }
 
-    @DeleteMapping("/api/resumes/{resumeId}")
+    @DeleteMapping("/api/resumes/{resumeId}") // 이력서 삭제
     public ResponseEntity<?> delete(@PathVariable int resumeId) {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         resumeService.removeResume(resumeId, sessionUser);

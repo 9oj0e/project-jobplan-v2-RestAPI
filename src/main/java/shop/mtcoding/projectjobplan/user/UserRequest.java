@@ -1,16 +1,17 @@
 package shop.mtcoding.projectjobplan.user;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserRequest {
 
-    @Data
+    @Data // 회원가입
     public static class JoinDTO {
         // 회원 정보
-        @Size(min = 3, max = 10 ,message = "유저네임은 3자 미만,10자를 초과할 수 없습니다.")
+        @Size(min = 3, max = 10, message = "유저네임은 3자 미만,10자를 초과할 수 없습니다.")
         @NotEmpty
         private String username;
         @Size(min = 4, max = 20)
@@ -35,14 +36,24 @@ public class UserRequest {
         private String businessName; // 기업이름
     }
 
-    @Data
+    @Data // 로그인
+    public static class LoginDTO {
+        private String username;
+        private String password;
+    }
+
+    @Data // 회원정보 수정
     public static class UpdateDTO {
         // 회원 정보
         @Size(min = 4, max = 20)
         @NotEmpty
         private String password;
         // 개인 정보
+        @Pattern(regexp = "^M|F$")
         private Character gender;
+        @Min(value = 9, message = "유효한 번호를 입력하세요.")
+        @Max(value = 11, message = "유효한 번호를 입력하세요.")
+        @Pattern(regexp = "[0-9]", message = "번호만 입력해주세요.")
         private String phoneNumber;
         private String address;
         @NotEmpty
@@ -51,15 +62,20 @@ public class UserRequest {
         // 이력서정보
         private String schoolName;
         private String major;
+        @Pattern(regexp = "^고졸|초대졸|대졸$")
         private String educationLevel; // 고졸/초대졸/대졸
         // 회사 정보
         private String employerIdNumber; // 사업자번호
         private String businessName; // 기업이름
     }
 
-    @Data
-    public static class LoginDTO {
-        private String username;
-        private String password;
+    @Data // 스킬 추가하기
+    public static class SkillDTO {
+        private List<@Pattern(
+                regexp = "^(C|Java|Python|Linux|MySQL|Spring" +
+                        "|HTML|javaScript|jQuery|AWS|JSP" +
+                        "|Flutter|React|Node.js|Vue.js" +
+                        "|Swift|Kotlin)$"
+        ) String> skill = new ArrayList<>();
     }
 }

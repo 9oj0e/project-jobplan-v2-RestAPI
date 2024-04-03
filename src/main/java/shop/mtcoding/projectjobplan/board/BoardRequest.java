@@ -1,9 +1,9 @@
 package shop.mtcoding.projectjobplan.board;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import shop.mtcoding.projectjobplan.user.SessionUser;
 import shop.mtcoding.projectjobplan.user.User;
 
 import java.util.ArrayList;
@@ -11,9 +11,9 @@ import java.util.List;
 
 public class BoardRequest {
 
-    @Data
+    @Data // 공고 작성하기
     public static class SaveDTO {
-        @Size(min = 1,max = 20, message = "제목은 20자를 초과할 수 없습니다.")
+        @Size(min = 1, max = 20, message = "제목은 20자를 초과할 수 없습니다.")
         @NotEmpty
         private String title;
         @NotEmpty
@@ -29,9 +29,12 @@ public class BoardRequest {
         @NotEmpty
         private String closingDate;
 
-        private List<String> skill = new ArrayList<>();
-
-
+        private List<@Pattern(
+                regexp = "^(C|Java|Python|Linux|MySQL|Spring" +
+                        "|HTML|javaScript|jQuery|AWS|JSP" +
+                        "|Flutter|React|Node.js|Vue.js" +
+                        "|Swift|Kotlin)$"
+        ) String> skill = new ArrayList<>();
 
         public Board toEntity(User user) {
             return Board.builder()
@@ -47,9 +50,9 @@ public class BoardRequest {
         }
     }
 
-    @Data
+    @Data // 공고 수정하기
     public static class UpdateDTO {
-        @Size(min = 1,max = 20, message = "제목은 20자를 초과할 수 없습니다.")
+        @Size(min = 1, max = 20, message = "제목은 20자를 초과할 수 없습니다.")
         @NotEmpty
         private String title;
         @NotEmpty

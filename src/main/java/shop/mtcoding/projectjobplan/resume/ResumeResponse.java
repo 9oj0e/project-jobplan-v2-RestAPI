@@ -7,12 +7,11 @@ import shop.mtcoding.projectjobplan._core.utils.FormatUtil;
 import shop.mtcoding.projectjobplan._core.utils.PagingUtil;
 import shop.mtcoding.projectjobplan.user.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ResumeResponse {
 
-    @Data
+    @Data // 이력서 수정 폼
     public static class UpdateFormDTO {
         // 이력서 정보
         private Integer id; // resumeId
@@ -28,7 +27,8 @@ public class ResumeResponse {
         private String educationLevel; // 학력
         private String schoolName;
         private String major; // 전공
-        private List<SkillDTO> skillList; // 보유 스킬
+        // 스킬 목록
+        private List<SkillDTO> skillList;
 
         public UpdateFormDTO(Resume resume) {
             this.id = resume.getId();
@@ -46,7 +46,7 @@ public class ResumeResponse {
             this.skillList = resume.getUser().getSkills().stream().map(skill -> new SkillDTO(skill.getName())).toList();
         }
 
-        @Data
+        @Data // 스킬 정보
         public class SkillDTO {
             private String skillName;
 
@@ -111,20 +111,20 @@ public class ResumeResponse {
                 this.skillName = skillName;
             }
         }
-
+        // 평점 포멧
         public Double getRating() {
             return FormatUtil.numberFormatter(this.rating);
         }
     }
 
-    @Data
+    @Data // 이력서 목록보기
     public static class ListingsDTO {
-        Page<ResumeDTO> resumeList;
-        List<Integer> pageList;
-        List<UserDTO> userList;
-        String keyword;
-        String skill;
-        String address;
+        Page<ResumeDTO> resumeList; // 이력서 목록
+        List<Integer> pageList; // 페이지 번호
+        List<UserDTO> userList; // 추천 인재
+        String skill; // 스킬
+        String address; // 지역
+        String keyword; // 키워드
 
         public ListingsDTO(Pageable pageable, List<Resume> resumes, List<User> users, String skill, String address, String keyword) {
             List<ResumeDTO> resumeList = resumes.stream().map(resume -> new ResumeDTO(resume)).toList();
@@ -136,7 +136,7 @@ public class ResumeResponse {
             this.keyword = keyword;
         }
 
-        @Data
+        @Data // 추천 인재 정보
         public class UserDTO {
             private int id;
             private String name;
@@ -149,7 +149,7 @@ public class ResumeResponse {
             }
         }
 
-        @Data
+        @Data // 이력서 정보
         public class ResumeDTO {
             // resume_tb
             private Integer id;
@@ -169,7 +169,7 @@ public class ResumeResponse {
     }
 
 
-    @Data
+    @Data // 이력서 작성
     public static class SaveDTO {
         // 이력서 정보
         private Integer id;
@@ -189,7 +189,6 @@ public class ResumeResponse {
         private String major; // 전공
 //        private List<SkillDTO> skillList = new ArrayList<>(); // 보유 스킬
         // 기타 정보
-
 
         public SaveDTO(Resume resume) {
             this.id = resume.getId();
@@ -217,7 +216,6 @@ public class ResumeResponse {
                 this.skillName = skillName;
             }
         }
-
     }
 
     @Data
@@ -240,7 +238,6 @@ public class ResumeResponse {
         private String major; // 전공
 //        private List<SkillDTO> skillList = new ArrayList<>(); // 보유 스킬
         // 기타 정보
-
 
         public UpdateDTO(Resume resume) {
             this.id = resume.getId();
@@ -268,8 +265,5 @@ public class ResumeResponse {
                 this.skillName = skillName;
             }
         }
-
     }
-
-
 }
