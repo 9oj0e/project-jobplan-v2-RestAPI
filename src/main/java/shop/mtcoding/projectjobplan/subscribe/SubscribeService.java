@@ -9,6 +9,7 @@ import shop.mtcoding.projectjobplan.board.Board;
 import shop.mtcoding.projectjobplan.board.BoardJpaRepository;
 import shop.mtcoding.projectjobplan.resume.Resume;
 import shop.mtcoding.projectjobplan.resume.ResumeJpaRepository;
+import shop.mtcoding.projectjobplan.user.SessionUser;
 import shop.mtcoding.projectjobplan.user.User;
 import shop.mtcoding.projectjobplan.user.UserJpaRepository;
 
@@ -23,18 +24,23 @@ public class SubscribeService {
     private final ResumeJpaRepository resumeJpaRepository;
 
     @Transactional // 공고 구독
-    public SubscribeResponse.BoardDTO createBoardSubscription(User sessionUser, int boardId) {
-        Board board = boardJpaRepository.findById(boardId).get();
-        Subscribe subscribe = new Subscribe(sessionUser, board);
+    public SubscribeResponse.BoardDTO createBoardSubscription(SessionUser sessionUser, int boardId) {
+        User user = userJpaRepository.findById(sessionUser.getId())
+                .orElseThrow(() -> new Exception404("존재하지 않는 유저입니다."));
+        Board board = boardJpaRepository.findById(boardId)
+                .orElseThrow(() -> new Exception404("존재하지 않는 공고입니다."));
+        Subscribe subscribe = new Subscribe(user, board);
         Subscribe result = subscribeJpaRepository.save(subscribe);
 
         return new SubscribeResponse.BoardDTO(result.getBoard());
     }
 
     @Transactional // 이력서 구독
-    public SubscribeResponse.ResumeDTO createResumeSubscription(User sessionUser, int resumeId) {
+    public SubscribeResponse.ResumeDTO createResumeSubscription(SessionUser sessionUser, int resumeId) {
+        User user = userJpaRepository.findById(sessionUser.getId())
+                .orElseThrow(() -> new Exception404("존재하지 않는 유저입니다."));
         Resume resume = resumeJpaRepository.findById(resumeId).get();
-        Subscribe subscribe = new Subscribe(sessionUser, resume);
+        Subscribe subscribe = new Subscribe(user, resume);
         Subscribe result = subscribeJpaRepository.save(subscribe);
 
         return new SubscribeResponse.ResumeDTO(result.getResume());
@@ -42,7 +48,8 @@ public class SubscribeService {
 
     @Transactional(readOnly = true)
     public SubscribeResponse.DTO getSubscription(int userId, Pageable pageable) { // 구독 리스트 불러오기
-        User user = userJpaRepository.findById(userId).get();
+        User user = userJpaRepository.findById(userId)
+                .orElseThrow(() -> new Exception404("존재하지 않는 유저입니다."));
         List<Subscribe> subscription = subscribeJpaRepository.findByUserId(userId).get();
 
         return new SubscribeResponse.DTO(user, subscription, pageable);
