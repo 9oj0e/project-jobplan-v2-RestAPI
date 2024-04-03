@@ -19,6 +19,7 @@ public class ApplyService {
     private final ResumeJpaRepository resumeJpaRepository;
     private final BoardJpaRepository boardJpaRepository;
 
+    @Transactional(readOnly = true)
     public ApplyResponse.ApplyFormDTO getBoardAndResume(int boardId, User sessionUser) {
         Board board = boardJpaRepository.findById(boardId)
                 .orElseThrow(() -> new Exception404("게시글을 찾을 수 없습니다."));

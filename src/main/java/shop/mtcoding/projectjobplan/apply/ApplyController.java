@@ -15,10 +15,10 @@ public class ApplyController {
     private final HttpSession session;
     private final ApplyService applyService;
 
-    // todo: getBoardAndResume @GetMapping("/boards/{boardId}/apply-form")
     @GetMapping("/api/boards/{boardId}/applies")
     public ResponseEntity<?> applyForm(@PathVariable int boardId) {
         User sessionUser = (User) session.getAttribute("sessionUser");
+        // todo: JWT sessionUser
         ApplyResponse.ApplyFormDTO applyFormDTO = applyService.getBoardAndResume(boardId, sessionUser);
 
         return ResponseEntity.ok(new ApiUtil(applyFormDTO));
@@ -34,6 +34,7 @@ public class ApplyController {
     @PutMapping("/api/applies") // /api/users/{userId}/applies
     public ResponseEntity<?> update(@RequestBody ApplyRequest.UpdateDTO requestDTO) { // 지원자 합격/불합격 처리
         User user = (User) session.getAttribute("sessionUser");
+        // todo: JWT sessionUser
         ApplyResponse.UpdateDTO updateDTO = applyService.updateApply(requestDTO);
 
         return ResponseEntity.ok(new ApiUtil(updateDTO));
