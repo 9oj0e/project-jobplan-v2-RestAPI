@@ -32,7 +32,7 @@ public class BoardController {
     @PostMapping("/api/boards") // 게시글 작성
     public ResponseEntity<?> post(@Valid @RequestBody BoardRequest.SaveDTO requestDTO, Errors errors) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        BoardResponse.DTO boardDTO = boardService.createBoard(requestDTO, sessionUser);
+        BoardResponse.SaveDTO boardDTO = boardService.createBoard(requestDTO, sessionUser);
 
         return ResponseEntity.ok(new ApiUtil(boardDTO));
     }
@@ -65,7 +65,7 @@ public class BoardController {
     @PutMapping("/api/boards/{boardId}") // 공고수정
     public ResponseEntity<?> update(@PathVariable int boardId, @Valid @RequestBody BoardRequest.UpdateDTO requestDTO, Errors errors) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-       BoardResponse.DTO boardDTO = boardService.setBoard(boardId, requestDTO, sessionUser);
+       BoardResponse.UpdateDTO boardDTO = boardService.setBoard(boardId, requestDTO, sessionUser);
 
         return ResponseEntity.ok(new ApiUtil(boardDTO));
     }
