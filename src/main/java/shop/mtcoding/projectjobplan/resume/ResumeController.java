@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import shop.mtcoding.projectjobplan._core.utils.ApiUtil;
+import shop.mtcoding.projectjobplan.user.SessionUser;
 import shop.mtcoding.projectjobplan.user.User;
 
 @RequiredArgsConstructor
@@ -22,7 +23,7 @@ public class ResumeController {
 
     @PostMapping("/api/resumes") // 이력서 작성 action
     public ResponseEntity<?> post(@Valid @RequestBody ResumeRequest.PostDTO requestDTO, Errors errors) {
-        User sessionUser = (User) session.getAttribute("sessionUser");
+        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         ResumeResponse.SaveDTO resumeDTO = resumeService.createResume(requestDTO, sessionUser);
 
         return ResponseEntity.ok(new ApiUtil(resumeDTO));
@@ -30,7 +31,7 @@ public class ResumeController {
 
     @GetMapping("/api/resumes/{resumeId}")
     public ResponseEntity<?> detail(@PathVariable int resumeId) {
-        User sessionUser = (User) session.getAttribute("sessionUser");
+        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         Integer sessionUserId = sessionUser == null ? null : sessionUser.getId();
         ResumeResponse.DetailDTO resumeDetail = resumeService.getResumeInDetail(resumeId, sessionUserId);
 
@@ -53,7 +54,7 @@ public class ResumeController {
 
     @PutMapping("/api/resumes/{resumeId}") // 이력서수정
     public ResponseEntity<?> update(@PathVariable int resumeId, @Valid @RequestBody ResumeRequest.UpdateDTO requestDTO, Errors errors) {
-        User sessionUser = (User) session.getAttribute("sessionUser");
+        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         ResumeResponse.UpdateDTO resumeDTO = resumeService.setResume(resumeId, requestDTO, sessionUser);
 
         return ResponseEntity.ok(new ApiUtil(resumeDTO));
@@ -61,7 +62,7 @@ public class ResumeController {
 
     @DeleteMapping("/api/resumes/{resumeId}")
     public ResponseEntity<?> delete(@PathVariable int resumeId) {
-        User sessionUser = (User) session.getAttribute("sessionUser");
+        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         resumeService.removeResume(resumeId, sessionUser);
 
         return ResponseEntity.ok(new ApiUtil(null));
