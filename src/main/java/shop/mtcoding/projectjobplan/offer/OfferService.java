@@ -30,7 +30,7 @@ public class OfferService {
     }
 
     @Transactional
-    public void createOffer(OfferRequest.OfferDTO requestDTO) {
+    public OfferResponse.OfferDTO createOffer(OfferRequest.OfferDTO requestDTO) {
         Board board = boardJpaRepository.findById(requestDTO.getBoardId())
                 .orElseThrow(() -> new Exception404("게시글 정보를 찾을 수 없습니다."));
         Resume resume = resumeJpaRepository.findById(requestDTO.getResumeId())
@@ -38,13 +38,15 @@ public class OfferService {
         Offer offer = new Offer(resume, board);
 
         offerJpaRepository.save(offer);
+        return new OfferResponse.OfferDTO(offer);
     }
 
     @Transactional
-    public void updateOffer(OfferRequest.UpdateDTO requestDTO) {
+    public OfferResponse.UpdateDTO updateOffer(OfferRequest.UpdateDTO requestDTO) {
         Offer offer = offerJpaRepository.findById(requestDTO.getId())
                 .orElseThrow(() -> new Exception404("제안 이력이 없습니다."));
         offer.update(requestDTO);
+        return new OfferResponse.UpdateDTO(offer);
     }
 
 

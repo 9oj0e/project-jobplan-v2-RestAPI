@@ -29,6 +29,7 @@ public class OfferResponse {
         }
 
         // 공고 정보
+        @Data
         public class BoardDTO {
             private Integer boardId;
             private String boardTitle;
@@ -43,6 +44,30 @@ public class OfferResponse {
             }
         }
 
+    }
+
+    @Data
+    public static class OfferDTO {
+        private Integer resumeId;
+        private Integer boardId;
+        private Boolean status;
+
+        public OfferDTO(Offer offer) {
+            this.resumeId = offer.getResume().getId();
+            this.boardId = offer.getBoard().getId();
+            this.status = offer.getStatus();
+        }
+    }
+
+    @Data
+    public static class UpdateDTO {
+        private Integer offerId;
+        private Boolean status;
+
+        public UpdateDTO(Offer offer) {
+            this.offerId = offer.getId();
+            this.status = offer.getStatus();
+        }
     }
 }
 

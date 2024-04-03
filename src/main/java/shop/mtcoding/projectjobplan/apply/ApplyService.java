@@ -29,7 +29,7 @@ public class ApplyService {
     }
 
     @Transactional
-    public void createApply(ApplyRequest.ApplyDTO requestDTO) {
+    public ApplyResponse.ApplyDTO createApply(ApplyRequest.ApplyDTO requestDTO) {
         Resume resume = resumeJpaRepository.findById(requestDTO.getResumeId())
                 .orElseThrow(() -> new Exception404("이력서를 찾을 수 없습니다."));
         Board board = boardJpaRepository.findById(requestDTO.getBoardId())
@@ -37,13 +37,15 @@ public class ApplyService {
         Apply apply = new Apply(resume, board);
 
         applyJpaRepository.save(apply);
+        return new ApplyResponse.ApplyDTO(apply);
     }
 
     @Transactional
-    public void updateApply(ApplyRequest.UpdateDTO requestDTO) {
+    public ApplyResponse.UpdateDTO updateApply(ApplyRequest.UpdateDTO requestDTO) {
         Apply apply = applyJpaRepository.findById(requestDTO.getId())
                 .orElseThrow(() -> new Exception404("지원 이력이 없습니다."));
 
         apply.update(requestDTO);
+        return new ApplyResponse.UpdateDTO(apply);
     }
 }

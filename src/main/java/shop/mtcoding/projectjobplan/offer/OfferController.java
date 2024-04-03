@@ -3,46 +3,44 @@ package shop.mtcoding.projectjobplan.offer;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import shop.mtcoding.projectjobplan._core.utils.ApiUtil;
 import shop.mtcoding.projectjobplan.user.User;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class OfferController {
     private final HttpSession session;
     private final OfferService offerService;
 
-    @GetMapping("/resumes/{resumeId}/offer-form")
-    public String offerForm(@PathVariable int resumeId, HttpServletRequest request) {
+    @GetMapping("/api/resumes/{resumeId}/offer")
+    public ResponseEntity<?> offerForm(@PathVariable int resumeId) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        OfferResponse.OfferFormDTO responseDTO = offerService.getResumeAndBoard(resumeId, sessionUser);
-        request.setAttribute("offerForm", responseDTO);
-
-        return "offer/offer-form";
+        OfferResponse.OfferFormDTO respDTO = offerService.getResumeAndBoard(resumeId, sessionUser);
+        return ResponseEntity.ok(new ApiUtil(respDTO));
     }
 
-    @PostMapping("/resumes/{resumeId}/offer")
-    public String offer(@PathVariable Integer resumeId, OfferRequest.OfferDTO requestDTO) {
-        offerService.createOffer(requestDTO);
-
-        return "redirect:/resumes/" + resumeId;
-    }
-
-    @PostMapping("/offer/update")
-    public String update(OfferRequest.UpdateDTO requestDTO) { // 제안 받기
+    @PostMapping("/api/resumes/{resumeId}/offer")
+    public ResponseEntity<?> offer(@PathVariable Integer resumeId, @RequestBody OfferRequest.OfferDTO requestDTO) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        offerService.updateOffer(requestDTO);
-
-        return "redirect:/users/" + sessionUser.getId();
+        OfferResponse.OfferDTO offerDTO= offerService.createOffer(requestDTO);
+        return ResponseEntity.ok(new ApiUtil(offerDTO));
     }
 
-    @PostMapping("/offer/{offerId}/delete")
-    public String delete(@PathVariable int offerId) {
+    @PutMapping("/api/offer")
+    public ResponseEntity<?> update(@RequestBody OfferRequest.UpdateDTO requestDTO) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        OfferResponse.UpdateDTO updateDTO = offerService.updateOffer(requestDTO);
+
+        return ResponseEntity.ok(new ApiUtil(updateDTO));
+    }
+
+    @DeleteMapping("/api/offer/{offerId}")
+    public ResponseEntity<?> delete(@PathVariable int offerId) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         offerService.removeOffer(offerId);
-        return "redirect:/users/" + sessionUser.getId();
+        return ResponseEntity.ok(new ApiUtil(null));
     }
 }

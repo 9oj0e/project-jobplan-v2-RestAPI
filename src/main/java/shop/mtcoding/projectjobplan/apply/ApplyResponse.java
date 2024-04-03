@@ -3,6 +3,7 @@ package shop.mtcoding.projectjobplan.apply;
 import lombok.Data;
 import shop.mtcoding.projectjobplan._core.utils.FormatUtil;
 import shop.mtcoding.projectjobplan.board.Board;
+import shop.mtcoding.projectjobplan.offer.Offer;
 import shop.mtcoding.projectjobplan.resume.Resume;
 
 import java.sql.Timestamp;
@@ -47,6 +48,30 @@ public class ApplyResponse {
 
         private String getClosingDate() {
             return FormatUtil.timeFormatter(this.closingDate);
+        }
+    }
+
+    @Data
+    public static class ApplyDTO {
+        private Integer resumeId;
+        private Integer boardId;
+        private Boolean status;
+
+        public ApplyDTO(Apply apply) {
+            this.resumeId = apply.getResume().getId();
+            this.boardId = apply.getBoard().getId();
+            this.status = apply.getStatus();
+        }
+    }
+
+    @Data
+    public static class UpdateDTO {
+        private Integer applyId;
+        private Boolean status;
+
+        public UpdateDTO(Apply apply) {
+            this.applyId = apply.getId();
+            this.status = apply.getStatus();
         }
     }
 }
