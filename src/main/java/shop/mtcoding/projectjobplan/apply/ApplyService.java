@@ -8,6 +8,7 @@ import shop.mtcoding.projectjobplan.board.Board;
 import shop.mtcoding.projectjobplan.board.BoardJpaRepository;
 import shop.mtcoding.projectjobplan.resume.Resume;
 import shop.mtcoding.projectjobplan.resume.ResumeJpaRepository;
+import shop.mtcoding.projectjobplan.user.SessionUser;
 import shop.mtcoding.projectjobplan.user.User;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class ApplyService {
     private final BoardJpaRepository boardJpaRepository;
 
     @Transactional(readOnly = true)
-    public ApplyResponse.ApplyFormDTO getBoardAndResume(int boardId, User sessionUser) {
+    public ApplyResponse.ApplyFormDTO getBoardAndResume(int boardId, SessionUser sessionUser) {
         Board board = boardJpaRepository.findById(boardId)
                 .orElseThrow(() -> new Exception404("게시글을 찾을 수 없습니다."));
         List<Resume> resumeList = resumeJpaRepository.findByUserId(sessionUser.getId())
