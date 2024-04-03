@@ -31,7 +31,7 @@ public class ResumeService {
         User user = userJpaRepository.findById(sessionUser.getId()).orElseThrow(() -> new Exception404("조회된 데이터가 없습니다."));
         Resume resume = new Resume(requestDTO, user);
         resumeJpaRepository.save(resume);
-        return new ResumeResponse.SaveDTO(resume);
+        return new ResumeResponse.SaveDTO(resume,user.getSkills());
     }
 
     @Transactional(readOnly = true)
@@ -90,6 +90,7 @@ public class ResumeService {
     @Transactional // 이력서수정
     public ResumeResponse.UpdateDTO setResume(int id, ResumeRequest.UpdateDTO requestDTO, SessionUser sessionUser) {
         // 조회 및 예외처리
+        User user = userJpaRepository.findById(sessionUser.getId()).orElseThrow(() -> new Exception404("조회된 데이터가 없습니다."));
         Resume resume = resumeJpaRepository.findById(id)
                 .orElseThrow(() -> new Exception404("해당 이력서를 찾을 수 없습니다."));
 
@@ -100,7 +101,7 @@ public class ResumeService {
 
         resume.update(requestDTO);
 
-        return new ResumeResponse.UpdateDTO(resume);
+        return new ResumeResponse.UpdateDTO(resume,user.getSkills());
     }
 
     @Transactional // 이력서삭제

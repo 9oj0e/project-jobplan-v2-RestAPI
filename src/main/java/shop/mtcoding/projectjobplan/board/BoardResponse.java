@@ -218,17 +218,17 @@ public class BoardResponse {
         private String salary; // 연봉
         private Timestamp openingDate; // 게시일
         private Timestamp closingDate; // 마감일 == null -> "상시채용"
-//        private List<SkillDTO> skillList = new ArrayList<>(); // 우대 스킬
+        private List<String> skillList = new ArrayList<>(); // 우대 스킬
         // 회원 정보
 
-        public SaveDTO(Board board) {
+        public SaveDTO(Board board, List<String> skills) {
             this.id = board.getId();
             this.title = board.getTitle();
             this.content = board.getContent();
             this.field = board.getField();
             this.position = board.getPosition();
             this.salary = board.getSalary();
-//            this.skillList = board.getSkillList().stream().map(skill -> new BoardDTO.SkillDTO(skill.getName())).toList();
+            this.skillList = skills;
             this.openingDate = board.getOpeningDate();
             this.closingDate = board.getClosingDate();
         }
@@ -256,17 +256,17 @@ public class BoardResponse {
         private String salary; // 연봉
         private Timestamp openingDate; // 게시일
         private Timestamp closingDate; // 마감일 == null -> "상시채용"
-//        private List<SkillDTO> skillList = new ArrayList<>(); // 우대 스킬
+        private List<String> skillList = new ArrayList<>(); // 우대 스킬
         // 회원 정보
 
-        public UpdateDTO(Board board) {
+        public UpdateDTO(Board board,List<String> skills) {
             this.id = board.getId();
             this.title = board.getTitle();
             this.content = board.getContent();
             this.field = board.getField();
             this.position = board.getPosition();
             this.salary = board.getSalary();
-//            this.skillList = board.getSkillList().stream().map(skill -> new BoardDTO.SkillDTO(skill.getName())).toList();
+            this.skillList = skills;
             this.openingDate = board.getOpeningDate();
             this.closingDate = board.getClosingDate();
         }

@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import shop.mtcoding.projectjobplan._core.utils.FormatUtil;
 import shop.mtcoding.projectjobplan._core.utils.PagingUtil;
+import shop.mtcoding.projectjobplan.skill.Skill;
 import shop.mtcoding.projectjobplan.user.User;
 
 import java.util.ArrayList;
@@ -187,11 +188,11 @@ public class ResumeResponse {
         private String educationLevel; // 고졸/초대졸/대졸
         private String schoolName;
         private String major; // 전공
-//        private List<SkillDTO> skillList = new ArrayList<>(); // 보유 스킬
+        private List<Skill> skillList = new ArrayList<>(); // 보유 스킬
         // 기타 정보
 
 
-        public SaveDTO(Resume resume) {
+        public SaveDTO(Resume resume,List<Skill> skills) {
             this.id = resume.getId();
             this.career = resume.getCareer();
             this.title = resume.getTitle();
@@ -206,7 +207,7 @@ public class ResumeResponse {
             this.educationLevel = resume.getUser().getEducationLevel();
             this.schoolName = resume.getUser().getSchoolName();
             this.major = resume.getUser().getMajor();
-//            this.skillList = resume.getUser().getSkills().stream().map(skill -> new SkillDTO(skill.getName())).toList();
+            this.skillList = skills;
         }
 
         @Data
@@ -238,11 +239,11 @@ public class ResumeResponse {
         private String educationLevel; // 고졸/초대졸/대졸
         private String schoolName;
         private String major; // 전공
-//        private List<SkillDTO> skillList = new ArrayList<>(); // 보유 스킬
+        private List<Skill> skillList = new ArrayList<>(); // 보유 스킬
         // 기타 정보
 
 
-        public UpdateDTO(Resume resume) {
+        public UpdateDTO(Resume resume, List<Skill> skills)  {
             this.id = resume.getId();
             this.career = resume.getCareer();
             this.title = resume.getTitle();
@@ -257,7 +258,7 @@ public class ResumeResponse {
             this.educationLevel = resume.getUser().getEducationLevel();
             this.schoolName = resume.getUser().getSchoolName();
             this.major = resume.getUser().getMajor();
-//            this.skillList = resume.getUser().getSkills().stream().map(skill -> new SkillDTO(skill.getName())).toList();
+            this.skillList = skills ;
         }
 
         @Data

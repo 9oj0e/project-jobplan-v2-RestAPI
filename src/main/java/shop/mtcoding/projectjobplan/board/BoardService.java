@@ -43,8 +43,8 @@ public class BoardService {
             skillList.add(skill);
         }
         skillJpaRepository.saveAll(skillList);
-
-        return new BoardResponse.SaveDTO(board);
+        System.out.println(1);
+        return new BoardResponse.SaveDTO(board, requestDTO.getSkill());
     }
 
     @Transactional(readOnly = true)
@@ -141,7 +141,7 @@ public class BoardService {
         // 글 수정
         board.update(requestDTO);
 
-        return new BoardResponse.UpdateDTO(board) ;
+        return new BoardResponse.UpdateDTO(board,requestDTO.getSkill()) ;
     }
 
     // 공고삭제
