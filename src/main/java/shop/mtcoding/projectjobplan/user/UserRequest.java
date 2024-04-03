@@ -1,8 +1,6 @@
 package shop.mtcoding.projectjobplan.user;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -51,7 +49,11 @@ public class UserRequest {
         @NotEmpty
         private String password;
         // 개인 정보
+        @Pattern(regexp = "^M|F$")
         private Character gender;
+        @Min(value = 9, message = "유효한 번호를 입력하세요.")
+        @Max(value = 11, message = "유효한 번호를 입력하세요.")
+        @Pattern(regexp = "[0-9]", message = "번호만 입력해주세요.")
         private String phoneNumber;
         private String address;
         @NotEmpty
@@ -60,6 +62,7 @@ public class UserRequest {
         // 이력서정보
         private String schoolName;
         private String major;
+        @Pattern(regexp = "^고졸|초대졸|대졸$")
         private String educationLevel; // 고졸/초대졸/대졸
         // 회사 정보
         private String employerIdNumber; // 사업자번호
@@ -68,6 +71,11 @@ public class UserRequest {
 
     @Data // 스킬 추가하기
     public static class SkillDTO {
-        private List<String> skill = new ArrayList<>();
+        private List<@Pattern(
+                regexp = "^(C|Java|Python|Linux|MySQL|Spring" +
+                        "|HTML|javaScript|jQuery|AWS|JSP" +
+                        "|Flutter|React|Node.js|Vue.js" +
+                        "|Swift|Kotlin)$"
+        ) String> skill = new ArrayList<>();
     }
 }

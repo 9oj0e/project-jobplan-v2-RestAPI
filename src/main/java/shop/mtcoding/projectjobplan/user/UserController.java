@@ -68,7 +68,7 @@ public class UserController {
     }
 
     @PostMapping("/api/users/{userId}/skills") // 스킬 추가, 수정 및 삭제
-    public ResponseEntity<?> skillAdd(@PathVariable int userId, @RequestBody UserRequest.SkillDTO requestDTO) {
+    public ResponseEntity<?> skillAdd(@PathVariable int userId, @Valid @RequestBody UserRequest.SkillDTO requestDTO, Errors errors) {
         List<UserResponse.SkillDTO> responseDTO = userService.createSkillList(requestDTO, userId);
 
         return ResponseEntity.ok(new ApiUtil<>(responseDTO));

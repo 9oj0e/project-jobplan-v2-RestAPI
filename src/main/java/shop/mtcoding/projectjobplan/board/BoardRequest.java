@@ -1,6 +1,7 @@
 package shop.mtcoding.projectjobplan.board;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import shop.mtcoding.projectjobplan.user.User;
@@ -28,7 +29,12 @@ public class BoardRequest {
         @NotEmpty
         private String closingDate;
 
-        private List<String> skill = new ArrayList<>();
+        private List<@Pattern(
+                regexp = "^(C|Java|Python|Linux|MySQL|Spring" +
+                        "|HTML|javaScript|jQuery|AWS|JSP" +
+                        "|Flutter|React|Node.js|Vue.js" +
+                        "|Swift|Kotlin)$"
+        ) String> skill = new ArrayList<>();
 
         public Board toEntity(User user) {
             return Board.builder()
