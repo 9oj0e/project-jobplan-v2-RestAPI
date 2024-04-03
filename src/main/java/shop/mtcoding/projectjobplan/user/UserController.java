@@ -21,16 +21,15 @@ public class UserController {
     @PostMapping("/join")
     public ResponseEntity<?> join(@Valid @RequestBody UserRequest.JoinDTO requestDTO, Errors errors) {
         User sessionUser = userService.createUser(requestDTO);
-        session.setAttribute("sessionUser", sessionUser);
+
         return ResponseEntity.ok(new ApiUtil(sessionUser));
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserRequest.LoginDTO requestDTO) {
-        User sessionUser = userService.getUser(requestDTO);
-        session.setAttribute("sessionUser", sessionUser);
+        String jwt = userService.getUser(requestDTO);
 
-        return ResponseEntity.ok(new ApiUtil(null));
+        return ResponseEntity.ok().header("Authorization", "Bearer" + jwt).body(new ApiUtil<>(null));
     }
 
     @GetMapping("/logout")
@@ -42,18 +41,18 @@ public class UserController {
 
     @PutMapping("/api/users/{userId}")
     public ResponseEntity<?> update(@PathVariable Integer userId, @Valid @RequestBody UserRequest.UpdateDTO requestDTO, Errors errors) {
-        User sessionUser = (User) session.getAttribute("sessionUser");
-        User newSessionUser = userService.setUser(sessionUser.getId(), requestDTO);
+        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+        SessionUser newSessionUser = userService.setUser(sessionUser.getId(), requestDTO);
         session.setAttribute("sessionUser", newSessionUser);
 
-        return ResponseEntity.ok(new ApiUtil(new UserResponse.UpdateDTO(newSessionUser)));
+        return ResponseEntity.ok(new ApiUtil(newSessionUser));
     }
 
-    @GetMapping({"/users/{userId}",
-            "/users/{userId}/boards",
-            "/users/{userId}/boards/{boardId}",
-            "/users/{userId}/resumes",
-            "/users/{userId}/resumes/{resumeId}"})
+    @GetMapping({"/api/users/{userId}",
+            "/api/users/{userId}/boards",
+            "/api/users/{userId}/boards/{boardId}",
+            "/api/users/{userId}/resumes",
+            "/api/users/{userId}/resumes/{resumeId}"})
     public ResponseEntity<?> profile(
             @PathVariable Integer userId,
             @PathVariable(required = false) Integer boardId,

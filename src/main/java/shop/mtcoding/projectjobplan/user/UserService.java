@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import shop.mtcoding.projectjobplan._core.errors.exception.Exception400;
 import shop.mtcoding.projectjobplan._core.errors.exception.Exception401;
 import shop.mtcoding.projectjobplan._core.errors.exception.Exception404;
+import shop.mtcoding.projectjobplan._core.utils.JwtUtil;
 import shop.mtcoding.projectjobplan.apply.Apply;
 import shop.mtcoding.projectjobplan.apply.ApplyJpaRepository;
 import shop.mtcoding.projectjobplan.offer.Offer;
@@ -35,10 +36,12 @@ public class UserService {
         return userJpaRepository.save(user);
     }
 
-    public User getUser(UserRequest.LoginDTO requestDTO) { // login
-
-        return userJpaRepository.findByUsernameAndPassword(requestDTO.getUsername(), requestDTO.getPassword())
+    public String getUser(UserRequest.LoginDTO requestDTO) { // login
+        User user = userJpaRepository.findByUsernameAndPassword(requestDTO.getUsername(), requestDTO.getPassword())
                 .orElseThrow(() -> new Exception401("아이디 또는 비밀번호가 틀렸습니다."));
+        String jwt = JwtUtil.create(user);
+
+        return jwt;
     }
 
     @Transactional(readOnly = true)
@@ -77,12 +80,12 @@ public class UserService {
     }
 
     @Transactional // 회원수정
-    public User setUser(int userId, UserRequest.UpdateDTO requestDTO) {
+    public SessionUser setUser(int userId, UserRequest.UpdateDTO requestDTO) {
         User user = userJpaRepository.findById(userId)
                 .orElseThrow(() -> new Exception404("회원 정보를 찾을 수 없습니다."));
         user.update(requestDTO);
 
-        return user;
+        return new SessionUser(user);
     }
 
     @Transactional

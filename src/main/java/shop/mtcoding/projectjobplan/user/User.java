@@ -1,6 +1,7 @@
 package shop.mtcoding.projectjobplan.user;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -79,5 +80,12 @@ public class User {
         this.major = requestDTO.getMajor();
         this.employerIdNumber = requestDTO.getEmployerIdNumber();
         this.businessName = requestDTO.getBusinessName();
+    }
+
+    @Builder
+    public User(int id, String username, boolean isEmployer) {
+        this.id = id;
+        this.username = username;
+        this.isEmployer = isEmployer;
     }
 }
