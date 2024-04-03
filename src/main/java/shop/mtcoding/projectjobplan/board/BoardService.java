@@ -28,7 +28,7 @@ public class BoardService {
     private final SkillJpaRepository skillJpaRepository;
 
     @Transactional
-    public Board createBoard(BoardRequest.SaveDTO requestDTO, User sessionUser) {
+    public BoardResponse.DTO createBoard(BoardRequest.SaveDTO requestDTO, User sessionUser) {
         Board board = boardJpaRepository.save(requestDTO.toEntity(sessionUser));
         List<Skill> skillList = new ArrayList<>();
         for (String skillName : requestDTO.getSkill()) {
@@ -40,7 +40,7 @@ public class BoardService {
         }
         skillJpaRepository.saveAll(skillList);
 
-        return board;
+        return new BoardResponse.DTO(board);
     }
 
     @Transactional(readOnly = true)
@@ -83,7 +83,9 @@ public class BoardService {
         return new BoardResponse.ListingsDTO(pageable, boards, recommendations, skill, address, keyword);
     }
 
-    public List<BoardResponse.IndexDTO> getAllBoardOnIndex(int limit) { // index
+    @Transactional
+    public List<BoardResponse.IndexDTO> getAllBoardOnIndex() { // index
+        final int limit = 8;
         List<Board> boardList = boardJpaRepository.findAllJoinUser(limit).get();
         List<BoardResponse.IndexDTO> responseDTO = new ArrayList<>();
         boardList.stream().forEach(board -> {
@@ -108,7 +110,7 @@ public class BoardService {
     }
 
     @Transactional // 공고수정
-    public void setBoard(int boardId, BoardRequest.UpdateDTO requestDTO, User sessionUser) {
+    public BoardResponse.DTO setBoard(int boardId, BoardRequest.UpdateDTO requestDTO, User sessionUser) {
         // 조회 및 예외 처리
         Board board = boardJpaRepository.findById(boardId)
                 .orElseThrow(() -> new Exception404("해당 공고를 찾을 수 없습니다."));
@@ -134,6 +136,8 @@ public class BoardService {
         skillJpaRepository.saveAll(skillList);
         // 글 수정
         board.update(requestDTO);
+
+        return new BoardResponse.DTO(board) ;
     }
 
     // 공고삭제

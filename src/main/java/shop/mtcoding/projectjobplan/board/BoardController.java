@@ -6,62 +6,48 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import shop.mtcoding.projectjobplan._core.utils.ApiUtil;
 import shop.mtcoding.projectjobplan.user.User;
 
 import java.util.List;
 
 @RequiredArgsConstructor
-@Controller
+@RestController
 public class BoardController {
     private final HttpSession session;
     private final BoardService boardService;
 
     @GetMapping("/")
-    public String index(HttpServletRequest request) {
-        final int limit = 8;
-        List<BoardResponse.IndexDTO> responseDTO = boardService.getAllBoardOnIndex(limit);
-        request.setAttribute("boardList", responseDTO);
+    public ResponseEntity<?> index() {
+        List<BoardResponse.IndexDTO> responseDTO = boardService.getAllBoardOnIndex();
 
-        return "index";
+        return ResponseEntity.ok(new ApiUtil(responseDTO));
     }
 
-    @GetMapping("/boards/main")
-    public String main() {
-        return "board/main";
-    }
 
-    @GetMapping("/boards/post-form")
-    public String postForm() {
-
-        return "board/post-form";
-    }
-
-    @PostMapping("/boards/post")
-    public String post(@Valid BoardRequest.SaveDTO requestDTO, Errors errors) {
+    @PostMapping("/api/boards") // 게시글 작성
+    public ResponseEntity<?> post(@Valid @RequestBody BoardRequest.SaveDTO requestDTO, Errors errors) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        Board board = boardService.createBoard(requestDTO, sessionUser);
+        BoardResponse.DTO boardDTO = boardService.createBoard(requestDTO, sessionUser);
 
-        return "redirect:/boards/" + board.getId();
+        return ResponseEntity.ok(new ApiUtil(boardDTO));
     }
 
-    @GetMapping("/boards/{boardId}")
-    public String detail(@PathVariable int boardId, HttpServletRequest request) {
+    @GetMapping("/api/boards/{boardId}")
+    public ResponseEntity<?> detail(@PathVariable int boardId) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         Integer sessionUserId = sessionUser == null ? null : sessionUser.getId();
         BoardResponse.DetailDTO boardDetail = boardService.getBoardInDetail(boardId, sessionUserId);
-        request.setAttribute("boardDetail", boardDetail);
 
-        return "board/detail";
+        return ResponseEntity.ok(new ApiUtil(boardDetail));
     }
 
-    @GetMapping("/boards")
-    public String listings(HttpServletRequest request,
+    @GetMapping("/api/boards")  // 개인 채용공고 리스트
+    public ResponseEntity<?> listings(HttpServletRequest request,
                            @PageableDefault(size = 10) Pageable pageable,
                            @RequestParam(value = "skill", required = false) String skill,
                            @RequestParam(value = "address", required = false) String address,
@@ -72,34 +58,23 @@ public class BoardController {
             sessionUserId = sessionUser.getId();
         }
         BoardResponse.ListingsDTO responseDTO = boardService.getAllBoard(pageable, sessionUserId, skill, address, keyword);
-        request.setAttribute("page", responseDTO);
 
-        return "board/listings";
+        return ResponseEntity.ok(new ApiUtil(responseDTO));
     }
 
-    /* modal로 대체
-    @GetMapping("/boards/{boardId}/update-form") // 공고수정폼
-    public String updateForm(@PathVariable int boardId, HttpServletRequest request) {
+    @PutMapping("/api/boards/{boardId}") // 공고수정
+    public ResponseEntity<?> update(@PathVariable int boardId, @Valid @RequestBody BoardRequest.UpdateDTO requestDTO, Errors errors) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        BoardResponse.UpdateFormDTO responseDTO = boardService.getBoard(boardId, sessionUser);
-        request.setAttribute("board", responseDTO);
+       BoardResponse.DTO boardDTO = boardService.setBoard(boardId, requestDTO, sessionUser);
 
-        return "board/update-form";
-    }
-    */
-    @PostMapping("/boards/{boardId}/update") // 공고수정
-    public String update(@PathVariable int boardId, @Valid BoardRequest.UpdateDTO requestDTO, Errors errors) {
-        User sessionUser = (User) session.getAttribute("sessionUser");
-        boardService.setBoard(boardId, requestDTO, sessionUser);
-
-        return "redirect:/boards/" + boardId;
+        return ResponseEntity.ok(new ApiUtil(boardDTO));
     }
 
-    @PostMapping("/boards/{boardId}/delete")
-    public String delete(@PathVariable int boardId) {
+    @DeleteMapping("/api/boards/{boardId}")
+    public ResponseEntity<?> delete(@PathVariable int boardId) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         boardService.removeBoard(boardId, sessionUser);
 
-        return "redirect:/users/" + sessionUser.getId();
+        return ResponseEntity.ok(new ApiUtil(null));
     }
 }
