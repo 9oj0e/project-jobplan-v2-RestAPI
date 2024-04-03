@@ -22,19 +22,19 @@ public class SubscribeService {
     private final ResumeJpaRepository resumeJpaRepository;
 
     @Transactional // 공고 구독
-    public void createBoardSubscription(User sessionUser, int boardId) {
+    public Subscribe createBoardSubscription(User sessionUser, int boardId) {
         Board board = boardJpaRepository.findById(boardId).get();
         Subscribe subscribe = new Subscribe(sessionUser, board);
 
-        subscribeJpaRepository.save(subscribe);
+        return subscribeJpaRepository.save(subscribe);
     }
 
     @Transactional // 이력서 구독
-    public void createResumeSubscription(User sessionUser, int resumeId) {
+    public Subscribe createResumeSubscription(User sessionUser, int resumeId) {
         Resume resume = resumeJpaRepository.findById(resumeId).get();
         Subscribe subscribe = new Subscribe(sessionUser, resume);
 
-        subscribeJpaRepository.save(subscribe);
+        return subscribeJpaRepository.save(subscribe);
     }
 
     @Transactional(readOnly = true)
