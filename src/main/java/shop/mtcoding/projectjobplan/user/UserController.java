@@ -40,7 +40,7 @@ public class UserController {
         return ResponseEntity.ok(new ApiUtil(null));
     }
 
-    @PutMapping("api/users/{userId}")
+    @PutMapping("/api/users/{userId}")
     public ResponseEntity<?> update(@PathVariable Integer userId, @Valid @RequestBody UserRequest.UpdateDTO requestDTO, Errors errors) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         User newSessionUser = userService.setUser(sessionUser.getId(), requestDTO);

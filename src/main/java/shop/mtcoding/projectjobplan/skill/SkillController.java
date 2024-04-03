@@ -12,7 +12,7 @@ import shop.mtcoding.projectjobplan._core.utils.ApiUtil;
 public class SkillController {
     private final SkillService skillService;
 
-    @PostMapping("/users/{userId}/skill/add")
+    @PostMapping("/users/{userId}/skills")
     public ResponseEntity<?> add(@PathVariable int userId, SkillRequest.DTO requestDTO) {
         System.out.println(requestDTO);
         SkillResponse.DTO responseDTO = skillService.createSkillList(requestDTO, userId);

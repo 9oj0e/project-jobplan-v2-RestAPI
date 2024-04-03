@@ -16,21 +16,22 @@ public class ApplyController {
     private final ApplyService applyService;
 
     // todo: getBoardAndResume @GetMapping("/boards/{boardId}/apply-form")
-    @GetMapping("/api/boards/{boardId}/apply")
+    @GetMapping("/api/boards/{boardId}/applies")
     public ResponseEntity<?> applyForm(@PathVariable int boardId) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         ApplyResponse.ApplyFormDTO applyFormDTO = applyService.getBoardAndResume(boardId, sessionUser);
+
         return ResponseEntity.ok(new ApiUtil(applyFormDTO));
     }
 
-    @PostMapping("/api/boards/{boardId}/apply")
+    @PostMapping("/api/boards/{boardId}/applies")
     public ResponseEntity<?> apply(@PathVariable int boardId, @RequestBody ApplyRequest.ApplyDTO requestDTO) {
         ApplyResponse.ApplyDTO applyDTO = applyService.createApply(requestDTO);
 
         return ResponseEntity.ok(new ApiUtil(applyDTO));
     }
 
-    @PutMapping("/api/apply")
+    @PutMapping("/api/applies") // /api/users/{userId}/applies
     public ResponseEntity<?> update(@RequestBody ApplyRequest.UpdateDTO requestDTO) { // 지원자 합격/불합격 처리
         User user = (User) session.getAttribute("sessionUser");
         ApplyResponse.UpdateDTO updateDTO = applyService.updateApply(requestDTO);
