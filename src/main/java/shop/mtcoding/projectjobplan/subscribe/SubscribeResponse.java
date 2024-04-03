@@ -75,4 +75,46 @@ public class SubscribeResponse {
             }
         }
     }
+
+    @Data
+    public static class BoardDTO {
+        private String address;
+        private String businessName;
+        private Integer boardId;
+        private String field;
+        private String title;
+        private String salary;
+        private Timestamp closingDate;
+
+        public String getClosingDate() {
+            return FormatUtil.timeFormatter(this.closingDate);
+        }
+
+        public BoardDTO(Board board) {
+            this.address = board.getUser().getAddress();
+            this.businessName = board.getUser().getBusinessName();
+            this.boardId = board.getId();
+            this.field = board.getField();
+            this.title = board.getTitle();
+            this.salary = board.getSalary();
+            this.closingDate = board.getClosingDate();
+        }
+    }
+
+    @Data
+    public static class ResumeDTO {
+        private Integer resumeId;
+        private String resumeUserName;
+        private String title;
+        private String email;
+        private String birthdate;
+
+        public ResumeDTO(Resume resume) {
+            this.resumeId = resume.getId();
+            this.resumeUserName = resume.getUser().getName();
+            this.title = resume.getTitle();
+            this.birthdate = resume.getUser().getBirthdate();
+            this.email = resume.getUser().getEmail();
+        }
+    }
 }
