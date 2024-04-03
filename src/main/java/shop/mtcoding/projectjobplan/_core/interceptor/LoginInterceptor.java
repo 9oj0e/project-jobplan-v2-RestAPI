@@ -17,10 +17,10 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // Bearer JWT
         String jwt = request.getHeader("Authorization");
-        jwt = jwt.replace("Bearer ", "");
         if (jwt == null) {
             throw new Exception401("JWT 토큰을 찾을 수 없습니다.");
         }
+        jwt = jwt.replace("Bearer ", "");
 
         try {
             SessionUser sessionUser = JwtUtil.verify(jwt);
