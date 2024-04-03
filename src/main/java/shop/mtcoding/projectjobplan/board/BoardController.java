@@ -12,7 +12,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import shop.mtcoding.projectjobplan._core.utils.ApiUtil;
 import shop.mtcoding.projectjobplan.user.User;
-import shop.mtcoding.projectjobplan.user.UserResponse;
 
 import java.util.List;
 
@@ -33,9 +32,9 @@ public class BoardController {
     @PostMapping("/api/boards") // 게시글 작성
     public ResponseEntity<?> post(@Valid @RequestBody BoardRequest.SaveDTO requestDTO, Errors errors) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        BoardDTO boardDTO = boardService.createBoard(requestDTO, sessionUser);
+        BoardResponse.DTO boardDTO = boardService.createBoard(requestDTO, sessionUser);
 
-        return ResponseEntity.ok(new ApiUtil(null));
+        return ResponseEntity.ok(new ApiUtil(boardDTO));
     }
 
     @GetMapping("/api/boards/{boardId}")
@@ -64,14 +63,14 @@ public class BoardController {
     }
 
     @PutMapping("/api/boards/{boardId}") // 공고수정
-    public ResponseEntity<?> update(@PathVariable int boardId, @Valid BoardRequest.UpdateDTO requestDTO, Errors errors) {
+    public ResponseEntity<?> update(@PathVariable int boardId, @Valid @RequestBody BoardRequest.UpdateDTO requestDTO, Errors errors) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-       Board board = boardService.setBoard(boardId, requestDTO, sessionUser);
+       BoardResponse.DTO boardDTO = boardService.setBoard(boardId, requestDTO, sessionUser);
 
-        return ResponseEntity.ok(new ApiUtil(requestDTO));
+        return ResponseEntity.ok(new ApiUtil(boardDTO));
     }
 
-    @DeleteMapping("/api/boards/{boardId}/delete")
+    @DeleteMapping("/api/boards/{boardId}")
     public ResponseEntity<?> delete(@PathVariable int boardId) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         boardService.removeBoard(boardId, sessionUser);

@@ -32,6 +32,7 @@ public class SubscribeResponse {
         }
 
         // (개인) 공고 구독 목록
+        @Data
         public class BoardDTO {
             private String address;
             private String businessName;
@@ -57,6 +58,7 @@ public class SubscribeResponse {
         }
 
         // (기업) 이력서 구독 목록
+        @Data
         public class ResumeDTO {
             private Integer resumeId;
             private String resumeUserName;

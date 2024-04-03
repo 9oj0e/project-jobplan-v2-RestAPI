@@ -20,16 +20,16 @@ public class ResumeController {
     private final ResumeService resumeService;
 
 
-    @PostMapping("/api/resumes/post") // 이력서 작성 action
-    public ResponseEntity<?> post(@Valid ResumeRequest.PostDTO requestDTO, Errors errors) {
+    @PostMapping("/api/resumes") // 이력서 작성 action
+    public ResponseEntity<?> post(@Valid @RequestBody ResumeRequest.PostDTO requestDTO, Errors errors) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        ResumeDTO resumeDTO = resumeService.createResume(requestDTO, sessionUser);
+        ResumeResponse.DTO resumeDTO = resumeService.createResume(requestDTO, sessionUser);
 
         return ResponseEntity.ok(new ApiUtil(resumeDTO));
     }
 
     @GetMapping("/api/resumes/{resumeId}")
-    public ResponseEntity<?> detail(@PathVariable int resumeId, HttpServletRequest request) {
+    public ResponseEntity<?> detail(@PathVariable int resumeId) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         Integer sessionUserId = sessionUser == null ? null : sessionUser.getId();
         ResumeResponse.DetailDTO resumeDetail = resumeService.getResumeInDetail(resumeId, sessionUserId);
@@ -52,11 +52,11 @@ public class ResumeController {
 
 
     @PutMapping("/api/resumes/{resumeId}") // 이력서수정
-    public ResponseEntity<?> update(@PathVariable int resumeId, @Valid ResumeRequest.UpdateDTO requestDTO, Errors errors) {
+    public ResponseEntity<?> update(@PathVariable int resumeId, @Valid @RequestBody ResumeRequest.UpdateDTO requestDTO, Errors errors) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        Resume resume = resumeService.setResume(resumeId, requestDTO, sessionUser);
+        ResumeResponse.DTO resumeDTO = resumeService.setResume(resumeId, requestDTO, sessionUser);
 
-        return ResponseEntity.ok(new ApiUtil(resume));
+        return ResponseEntity.ok(new ApiUtil(resumeDTO));
     }
 
     @DeleteMapping("/api/resumes/{resumeId}")
