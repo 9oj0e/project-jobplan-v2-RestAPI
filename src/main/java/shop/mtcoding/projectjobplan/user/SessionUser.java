@@ -50,9 +50,9 @@ public class SessionUser {
     }
 
     public SessionUser(User user) {
-        this.id = getId();
-        this.username = getUsername();
-        this.isEmployer = getIsEmployer();
-        this.createdAt = getCreatedAt();
+        this.id = user.getId();
+        this.username = user.getUsername();
+        this.isEmployer = user.getIsEmployer();
+        this.createdAt = user.getCreatedAt();
     }
 }

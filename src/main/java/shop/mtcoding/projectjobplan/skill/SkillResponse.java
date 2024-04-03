@@ -12,6 +12,8 @@ public class SkillResponse {
         public DTO(List<Skill> skills) {
             this.skillList = skills.stream().map(skill -> new SkillDTO(skill)).toList();
         }
+
+        @Data
         public class SkillDTO {
             private Integer userId;
             private String skillName;
