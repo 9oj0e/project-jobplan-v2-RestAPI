@@ -204,4 +204,43 @@ public class BoardResponse {
             this.businessName = board.getUser().getBusinessName();
         }
     }
+
+    //board 엔티티를 리턴하기 위해 만든 DTO
+    @Data
+    public static class DTO {
+
+        // 공고 정보
+        private Integer id;
+        private String title; // 제목
+        private String content; // 내용
+        private String field; // 채용 분야
+        private String position; // 포지션
+        private String salary; // 연봉
+        private Timestamp openingDate; // 게시일
+        private Timestamp closingDate; // 마감일 == null -> "상시채용"
+//        private List<SkillDTO> skillList = new ArrayList<>(); // 우대 스킬
+        // 회원 정보
+
+        public DTO(Board board) {
+            this.id = board.getId();
+            this.title = board.getTitle();
+            this.content = board.getContent();
+            this.field = board.getField();
+            this.position = board.getPosition();
+            this.salary = board.getSalary();
+//            this.skillList = board.getSkillList().stream().map(skill -> new BoardDTO.SkillDTO(skill.getName())).toList();
+            this.openingDate = board.getOpeningDate();
+            this.closingDate = board.getClosingDate();
+        }
+
+        @Data
+        public class SkillDTO {
+            private String skillName;
+
+            public SkillDTO(String skillName) {
+                this.skillName = skillName;
+            }
+        }
+
+    }
 }
