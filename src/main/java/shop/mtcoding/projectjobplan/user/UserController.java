@@ -60,7 +60,7 @@ public class UserController {
             @PageableDefault(size = 3) Pageable pageable,
             HttpServletRequest request) {
         // todo: NullPointException
-        User sessionUser = (User) session.getAttribute("sessionUser");
+        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         UserResponse.ProfileDTO profileDTO = userService.getUser(sessionUser.getId(), boardId, resumeId, pageable);
         request.setAttribute("profileDTO", profileDTO);
 
