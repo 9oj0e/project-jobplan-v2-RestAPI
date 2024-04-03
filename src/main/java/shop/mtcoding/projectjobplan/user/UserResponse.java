@@ -2,6 +2,7 @@ package shop.mtcoding.projectjobplan.user;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,41 @@ import java.sql.Timestamp;
 import java.util.List;
 
 public class UserResponse {
+
+    @Data
+    public static class JoinDTO{
+        private Integer userId;
+        private String username;
+        private String name;
+        private String birthdate;
+        private Character gender;
+        private String phoneNumber;
+        private String address;
+        private String email;
+        private String educationLevel;
+        private String schoolName;
+        private String major;
+        private Boolean isEmployer;
+        private String employerIdNumber;
+        private String businessName;
+
+        public JoinDTO(User user) {
+            this.userId = user.getId();
+            this.username = user.getUsername();
+            this.name = user.getName();
+            this.birthdate = user.getBirthdate();
+            this.gender = user.getGender();
+            this.phoneNumber = user.getPhoneNumber();
+            this.address = user.getAddress();
+            this.email = user.getEmail();
+            this.educationLevel = user.getEducationLevel();
+            this.schoolName = user.getSchoolName();
+            this.major = user.getMajor();
+            this.isEmployer = user.getIsEmployer();
+            this.employerIdNumber = user.getEmployerIdNumber();
+            this.businessName = user.getBusinessName();
+        }
+    }
 
     @Data
     public static class UpdateFormDTO {
