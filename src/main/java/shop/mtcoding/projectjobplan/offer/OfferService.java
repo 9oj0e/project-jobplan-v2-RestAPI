@@ -8,6 +8,7 @@ import shop.mtcoding.projectjobplan.board.Board;
 import shop.mtcoding.projectjobplan.board.BoardJpaRepository;
 import shop.mtcoding.projectjobplan.resume.Resume;
 import shop.mtcoding.projectjobplan.resume.ResumeJpaRepository;
+import shop.mtcoding.projectjobplan.user.SessionUser;
 import shop.mtcoding.projectjobplan.user.User;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class OfferService {
     private final BoardJpaRepository boardJpaRepository;
 
     @Transactional(readOnly = true)
-    public OfferResponse.OfferFormDTO getResumeAndBoard(int resumeId, User sessionUser) {
+    public OfferResponse.OfferFormDTO getResumeAndBoard(int resumeId, SessionUser sessionUser) {
         Resume resume = resumeJpaRepository.findById(resumeId)
                 .orElseThrow(() -> new Exception404("이력서 정보를 찾을 수 없습니다."));
         List<Board> boardList = boardJpaRepository.findByUserId(sessionUser.getId())
