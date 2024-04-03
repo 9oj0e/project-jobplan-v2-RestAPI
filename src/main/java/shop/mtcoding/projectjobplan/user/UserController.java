@@ -22,7 +22,8 @@ public class UserController {
     public ResponseEntity<?> join(@Valid @RequestBody UserRequest.JoinDTO requestDTO, Errors errors) {
         User sessionUser = userService.createUser(requestDTO);
         session.setAttribute("sessionUser", sessionUser);
-        return ResponseEntity.ok(new ApiUtil(sessionUser));
+
+        return ResponseEntity.ok(new ApiUtil(new UserResponse.JoinDTO(sessionUser)));
     }
 
     @PostMapping("/login")
