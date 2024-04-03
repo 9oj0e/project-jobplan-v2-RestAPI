@@ -4,6 +4,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import shop.mtcoding.projectjobplan._core.errors.exception.Exception404;
 import shop.mtcoding.projectjobplan.board.Board;
 import shop.mtcoding.projectjobplan.board.BoardJpaRepository;
 import shop.mtcoding.projectjobplan.resume.Resume;
@@ -22,19 +23,21 @@ public class SubscribeService {
     private final ResumeJpaRepository resumeJpaRepository;
 
     @Transactional // 공고 구독
-    public Subscribe createBoardSubscription(User sessionUser, int boardId) {
+    public SubscribeResponse.BoardDTO createBoardSubscription(User sessionUser, int boardId) {
         Board board = boardJpaRepository.findById(boardId).get();
         Subscribe subscribe = new Subscribe(sessionUser, board);
+        Subscribe result = subscribeJpaRepository.save(subscribe);
 
-        return subscribeJpaRepository.save(subscribe);
+        return new SubscribeResponse.BoardDTO(result.getBoard());
     }
 
     @Transactional // 이력서 구독
-    public Subscribe createResumeSubscription(User sessionUser, int resumeId) {
+    public SubscribeResponse.ResumeDTO createResumeSubscription(User sessionUser, int resumeId) {
         Resume resume = resumeJpaRepository.findById(resumeId).get();
         Subscribe subscribe = new Subscribe(sessionUser, resume);
+        Subscribe result = subscribeJpaRepository.save(subscribe);
 
-        return subscribeJpaRepository.save(subscribe);
+        return new SubscribeResponse.ResumeDTO(result.getResume());
     }
 
     @Transactional(readOnly = true)
@@ -47,14 +50,16 @@ public class SubscribeService {
 
     @Transactional // 공고 구독 중지
     public void removeBoardSubscription(int boardId, int userId) {
-        Subscribe subscribe = subscribeJpaRepository.findByBoardIdAndUserId(boardId, userId).get();
+        Subscribe subscribe = subscribeJpaRepository.findByBoardIdAndUserId(boardId, userId)
+                .orElseThrow(() -> new Exception404("구독되어 있지 않습니다."));
 
         subscribeJpaRepository.delete(subscribe);
     }
 
     @Transactional // 이력서 구독 중지
     public void removeResumeSubscription(int resumeId, int userId) {
-        Subscribe subscribe = subscribeJpaRepository.findByResumeIdAndUserId(resumeId, userId).get();
+        Subscribe subscribe = subscribeJpaRepository.findByResumeIdAndUserId(resumeId, userId)
+                        .orElseThrow(() -> new Exception404("구독되어 있지 않습니다."));
 
         subscribeJpaRepository.delete(subscribe);
     }
