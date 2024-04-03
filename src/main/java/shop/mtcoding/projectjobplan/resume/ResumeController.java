@@ -23,7 +23,7 @@ public class ResumeController {
     @PostMapping("/api/resumes") // 이력서 작성 action
     public ResponseEntity<?> post(@Valid @RequestBody ResumeRequest.PostDTO requestDTO, Errors errors) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        ResumeResponse.DTO resumeDTO = resumeService.createResume(requestDTO, sessionUser);
+        ResumeResponse.SaveDTO resumeDTO = resumeService.createResume(requestDTO, sessionUser);
 
         return ResponseEntity.ok(new ApiUtil(resumeDTO));
     }
@@ -54,7 +54,7 @@ public class ResumeController {
     @PutMapping("/api/resumes/{resumeId}") // 이력서수정
     public ResponseEntity<?> update(@PathVariable int resumeId, @Valid @RequestBody ResumeRequest.UpdateDTO requestDTO, Errors errors) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        ResumeResponse.DTO resumeDTO = resumeService.setResume(resumeId, requestDTO, sessionUser);
+        ResumeResponse.UpdateDTO resumeDTO = resumeService.setResume(resumeId, requestDTO, sessionUser);
 
         return ResponseEntity.ok(new ApiUtil(resumeDTO));
     }
