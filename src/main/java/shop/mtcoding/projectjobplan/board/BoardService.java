@@ -141,7 +141,7 @@ public class BoardService {
         // 글 수정
         board.update(requestDTO);
 
-        return new BoardResponse.UpdateDTO(board) ;
+        return new BoardResponse.UpdateDTO(board);
     }
 
     // 공고삭제

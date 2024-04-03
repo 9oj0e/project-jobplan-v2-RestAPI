@@ -3,7 +3,6 @@ package shop.mtcoding.projectjobplan.apply;
 import lombok.Data;
 import shop.mtcoding.projectjobplan._core.utils.FormatUtil;
 import shop.mtcoding.projectjobplan.board.Board;
-import shop.mtcoding.projectjobplan.offer.Offer;
 import shop.mtcoding.projectjobplan.resume.Resume;
 
 import java.sql.Timestamp;

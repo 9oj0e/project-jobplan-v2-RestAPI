@@ -13,7 +13,10 @@ import shop.mtcoding.projectjobplan.apply.ApplyJpaRepository;
 import shop.mtcoding.projectjobplan.offer.Offer;
 import shop.mtcoding.projectjobplan.offer.OfferJpaRepository;
 import shop.mtcoding.projectjobplan.rating.RatingJpaRepository;
+import shop.mtcoding.projectjobplan.skill.Skill;
+import shop.mtcoding.projectjobplan.skill.SkillJpaRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,8 +25,9 @@ import java.util.Optional;
 public class UserService {
     private final UserJpaRepository userJpaRepository;
     private final ApplyJpaRepository applyJpaRepository;
-    private final RatingJpaRepository ratingJpaRepository;
     private final OfferJpaRepository offerJpaRepository;
+    private final SkillJpaRepository skillJpaRepository;
+    private final RatingJpaRepository ratingJpaRepository;
 
     @Transactional
     public User createUser(UserRequest.JoinDTO requestDTO) { // join
@@ -94,5 +98,27 @@ public class UserService {
                 .orElseThrow(() -> new Exception404("회원 정보를 찾을 수 없습니다."));
 
         userJpaRepository.delete(user);
+    }
+
+    @Transactional
+    public List<UserResponse.SkillDTO> createSkillList(UserRequest.SkillDTO requestDTO, int userId) {
+        User user = userJpaRepository.findById(userId).get();
+        List<Skill> skills = new ArrayList<>();
+        for (String skillName : requestDTO.getSkill()) {
+            Skill skill = Skill.builder()
+                    .user(user)
+                    .name(skillName)
+                    .build();
+            skills.add(skill);
+        }
+        // dto.getSkill().stream().forEach(s -> new Skill(user, s));
+        List<Skill> skillFound = skillJpaRepository.findByUserId(userId).orElse(null);
+        if (skillFound != null) {
+            skillJpaRepository.deleteAll(skillFound);
+        }
+        skillJpaRepository.saveAll(skills);
+        List<UserResponse.SkillDTO> skillList = skills.stream().map(skill -> new UserResponse.SkillDTO(skill)).toList();
+
+        return skillList;
     }
 }

@@ -5,12 +5,15 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserRequest {
 
     @Data
     public static class JoinDTO {
         // 회원 정보
-        @Size(min = 3, max = 10 ,message = "유저네임은 3자 미만,10자를 초과할 수 없습니다.")
+        @Size(min = 3, max = 10, message = "유저네임은 3자 미만,10자를 초과할 수 없습니다.")
         @NotEmpty
         private String username;
         @Size(min = 4, max = 20)
@@ -36,6 +39,12 @@ public class UserRequest {
     }
 
     @Data
+    public static class LoginDTO {
+        private String username;
+        private String password;
+    }
+
+    @Data
     public static class UpdateDTO {
         // 회원 정보
         @Size(min = 4, max = 20)
@@ -58,8 +67,7 @@ public class UserRequest {
     }
 
     @Data
-    public static class LoginDTO {
-        private String username;
-        private String password;
+    public static class SkillDTO {
+        private List<String> skill = new ArrayList<>();
     }
 }

@@ -7,12 +7,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import shop.mtcoding.projectjobplan._core.utils.ApiUtil;
 import shop.mtcoding.projectjobplan.user.SessionUser;
-import shop.mtcoding.projectjobplan.user.User;
 
 import java.util.List;
 
@@ -50,10 +48,10 @@ public class BoardController {
 
     @GetMapping("/api/boards")  // 개인 채용공고 리스트
     public ResponseEntity<?> listings(HttpServletRequest request,
-                           @PageableDefault(size = 10) Pageable pageable,
-                           @RequestParam(value = "skill", required = false) String skill,
-                           @RequestParam(value = "address", required = false) String address,
-                           @RequestParam(value = "keyword", required = false) String keyword) {
+                                      @PageableDefault(size = 10) Pageable pageable,
+                                      @RequestParam(value = "skill", required = false) String skill,
+                                      @RequestParam(value = "address", required = false) String address,
+                                      @RequestParam(value = "keyword", required = false) String keyword) {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         Integer sessionUserId = null;
         if (sessionUser != null) {

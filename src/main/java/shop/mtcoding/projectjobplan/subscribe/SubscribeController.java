@@ -6,11 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import shop.mtcoding.projectjobplan._core.utils.ApiUtil;
 import shop.mtcoding.projectjobplan.user.SessionUser;
-import shop.mtcoding.projectjobplan.user.User;
 
 @RequiredArgsConstructor
 @RestController
@@ -36,8 +34,8 @@ public class SubscribeController {
 
     @GetMapping("/api/users/{userId}/subscription") // 구독 리스트
     public ResponseEntity<?> subscription(@PathVariable int userId,
-                               HttpServletRequest request,
-                               @PageableDefault(size = 3) Pageable pageable) {
+                                          HttpServletRequest request,
+                                          @PageableDefault(size = 3) Pageable pageable) {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         SubscribeResponse.DTO subscription = subscribeService.getSubscription(sessionUser.getId(), pageable);
         if (subscription.getPage().isEmpty()) {

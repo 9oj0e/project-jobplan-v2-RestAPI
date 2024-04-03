@@ -7,10 +7,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import shop.mtcoding.projectjobplan._core.utils.ApiUtil;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -65,5 +66,12 @@ public class UserController {
         request.setAttribute("profileDTO", profileDTO);
 
         return ResponseEntity.ok(new ApiUtil(profileDTO));
+    }
+
+    @PostMapping("/api/users/{userId}/skills")
+    public ResponseEntity<?> skillAdd(@PathVariable int userId, @RequestBody UserRequest.SkillDTO requestDTO) {
+        List<UserResponse.SkillDTO> responseDTO = userService.createSkillList(requestDTO, userId);
+
+        return ResponseEntity.ok(new ApiUtil<>(responseDTO));
     }
 }

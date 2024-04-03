@@ -9,7 +9,6 @@ import shop.mtcoding.projectjobplan.board.BoardJpaRepository;
 import shop.mtcoding.projectjobplan.resume.Resume;
 import shop.mtcoding.projectjobplan.resume.ResumeJpaRepository;
 import shop.mtcoding.projectjobplan.user.SessionUser;
-import shop.mtcoding.projectjobplan.user.User;
 
 import java.util.List;
 

@@ -7,7 +7,6 @@ import shop.mtcoding.projectjobplan._core.utils.FormatUtil;
 import shop.mtcoding.projectjobplan._core.utils.PagingUtil;
 import shop.mtcoding.projectjobplan.user.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ResumeResponse {

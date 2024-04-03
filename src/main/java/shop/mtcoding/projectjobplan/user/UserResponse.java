@@ -1,8 +1,5 @@
 package shop.mtcoding.projectjobplan.user;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +9,7 @@ import shop.mtcoding.projectjobplan.apply.Apply;
 import shop.mtcoding.projectjobplan.board.Board;
 import shop.mtcoding.projectjobplan.offer.Offer;
 import shop.mtcoding.projectjobplan.resume.Resume;
+import shop.mtcoding.projectjobplan.skill.Skill;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -19,7 +17,7 @@ import java.util.List;
 public class UserResponse {
 
     @Data
-    public static class JoinDTO{
+    public static class JoinDTO {
         private Integer userId;
         private String username;
         private String name;
@@ -192,6 +190,7 @@ public class UserResponse {
                 return FormatUtil.stringFormatter(this.title);
             }
         }
+
         @Data
         public class ResumeDTO {
             private Integer id;
@@ -207,6 +206,7 @@ public class UserResponse {
             public String getTitle() {
                 return FormatUtil.stringFormatter(this.title);
             }
+
             public String getOgTitle() {
                 return this.title;
             }
@@ -215,6 +215,7 @@ public class UserResponse {
                 return FormatUtil.timeFormatter(this.createdAt);
             }
         }
+
         @Data
         public class ApplyDTO {
             // 공고 정보
@@ -316,6 +317,7 @@ public class UserResponse {
                 }
             }
         }
+
         @Data
         public class SkillDTO {
             private String skillName;
@@ -327,29 +329,13 @@ public class UserResponse {
     }
 
     @Data
-    public static class UpdateDTO {
-        private Integer id;
-        private Character gender;
-        private String phoneNumber;
-        private String address;
-        private String email;
-        private String schoolName;
-        private String major;
-        private String educationLevel;
-        private String employerIdNumber;
-        private String businessName;
+    public static class SkillDTO {
+        private Integer userId;
+        private String skillName;
 
-        public UpdateDTO(User user) {
-            this.id = user.getId();
-            this.gender = user.getGender();
-            this.phoneNumber = user.getPhoneNumber();
-            this.address = user.getAddress();
-            this.email = user.getEmail();
-            this.schoolName = user.getSchoolName();
-            this.major = user.getMajor();
-            this.educationLevel = user.getEducationLevel();
-            this.employerIdNumber = user.getEmployerIdNumber();
-            this.businessName = user.getBusinessName();
+        public SkillDTO(Skill skill) {
+            this.userId = skill.getUser().getId();
+            this.skillName = skill.getName();
         }
     }
 }
