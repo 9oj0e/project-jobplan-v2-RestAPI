@@ -48,7 +48,7 @@ public class BoardController {
         return ResponseEntity.ok(new ApiUtil(boardDetail));
     }
 
-    @GetMapping("/boards")  // 개인 채용공고 리스트
+    @GetMapping("/api/boards")  // 개인 채용공고 리스트
     public ResponseEntity<?> listings(HttpServletRequest request,
                            @PageableDefault(size = 10) Pageable pageable,
                            @RequestParam(value = "skill", required = false) String skill,
