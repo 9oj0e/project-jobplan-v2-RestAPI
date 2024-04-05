@@ -2,6 +2,7 @@ package shop.mtcoding.projectjobplan.user;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,5 +78,10 @@ public class UserRequest {
                         "|Flutter|React|Node.js|Vue.js" +
                         "|Swift|Kotlin)$"
         ) String> skill = new ArrayList<>();
+    }
+
+    @Data
+    public static class PicDTO {
+        private MultipartFile imgFile;
     }
 }

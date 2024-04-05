@@ -337,5 +337,13 @@ public class UserResponse {
             this.skillName = skill.getName();
         }
     }
+    @Data
+    public static class PicDTO {
+        private String imgBase64;
+
+        public PicDTO(String imgBase64) {
+            this.imgBase64 = imgBase64;
+        }
+    }
 }
 
