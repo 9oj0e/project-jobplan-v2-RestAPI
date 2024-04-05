@@ -75,7 +75,7 @@ public class UserController {
         return ResponseEntity.ok(new ApiUtil<>(responseDTO));
     }
 
-    @PostMapping("/users/{userId}/pic") // 사진 업로드
+    @PostMapping("/api/users/{userId}/pic") // 사진 업로드
     public ResponseEntity<?> picUpload(@PathVariable int userId, @RequestBody UserRequest.PicDTO requestDTO) throws IOException {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         UserResponse.PicDTO responseDTO = userService.picUpload(requestDTO, sessionUser.getId());

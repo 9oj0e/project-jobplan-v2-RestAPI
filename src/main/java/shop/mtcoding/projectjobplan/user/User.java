@@ -91,7 +91,7 @@ public class User {
         this.isEmployer = isEmployer;
     }
 
-    public void picPost(String imgFilename) {
+    public void picUpdate(String imgFilename) {
         setImgFilename(imgFilename);
     }
 }

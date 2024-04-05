@@ -82,6 +82,7 @@ public class UserRequest {
 
     @Data
     public static class PicDTO {
-        private MultipartFile imgFile;
+        private String fileName;
+        private String encodedImg;
     }
 }

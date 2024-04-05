@@ -1,10 +1,8 @@
 package shop.mtcoding.projectjobplan.user;
 
 import lombok.Data;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import shop.mtcoding.projectjobplan._core.utils.FormatUtil;
-import shop.mtcoding.projectjobplan._core.utils.PagingUtil;
 import shop.mtcoding.projectjobplan.apply.Apply;
 import shop.mtcoding.projectjobplan.board.Board;
 import shop.mtcoding.projectjobplan.offer.Offer;
@@ -162,6 +160,7 @@ public class UserResponse {
             this.offerList = offers.stream().map(offer -> new OfferDTO(offer)).toList();
             // this.offerList = PagingUtil.pageConverter(pageable, offers);
         }
+
         // 평점 포멧
         public Double getRating() {
             return FormatUtil.numberFormatter(this.rating);
@@ -182,10 +181,12 @@ public class UserResponse {
                 this.position = board.getPosition();
                 this.openingDate = board.getOpeningDate();
             }
+
             // 생성 시각 포멧
             public String getOpeningDate() {
                 return FormatUtil.timeFormatter(this.openingDate);
             }
+
             // 공고 제목 포멧
             public String getTitle() {
                 return FormatUtil.stringFormatter(this.title);
@@ -203,14 +204,17 @@ public class UserResponse {
                 this.title = resume.getTitle();
                 this.createdAt = resume.getCreatedAt();
             }
+
             // 이력서 제목 포멧
             public String getTitle() {
                 return FormatUtil.stringFormatter(this.title);
             }
+
             // 원래 제목 보기
             public String getOgTitle() {
                 return this.title;
             }
+
             // 생성 시각 포멧
             public String getCreatedAt() {
                 return FormatUtil.timeFormatter(this.createdAt);
@@ -243,6 +247,7 @@ public class UserResponse {
                 this.createdAt = apply.getCreatedAt();
                 this.status = apply.getStatus();
             }
+
             // 이력서 제목 포멧
             public String getResumeTitle() {
                 return FormatUtil.stringFormatter(this.resumeTitle);
@@ -296,6 +301,7 @@ public class UserResponse {
                 this.status = offer.getStatus();
                 this.createdAt = offer.getCreatedAt();
             }
+
             // 이력서 제목 포멧
             public String getTitle() {
                 return FormatUtil.stringFormatter(this.resumeTitle);
@@ -337,12 +343,15 @@ public class UserResponse {
             this.skillName = skill.getName();
         }
     }
+
     @Data
     public static class PicDTO {
-        private String imgBase64;
+        private String fileName;
+        private String filePath;
 
-        public PicDTO(String imgBase64) {
-            this.imgBase64 = imgBase64;
+        public PicDTO(String fileName, String filePath) {
+            this.fileName = fileName;
+            this.filePath = filePath;
         }
     }
 }

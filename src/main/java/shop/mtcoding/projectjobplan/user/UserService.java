@@ -21,10 +21,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -133,31 +130,15 @@ public class UserService {
 
     @Transactional
     public UserResponse.PicDTO picUpload(UserRequest.PicDTO requestDTO, Integer sessionUserId) throws IOException {
-        // byte[] img = Base64.getDecoder().decode(); // base64 확장자, 파싱하는 법 gpt...
         User user = userJpaRepository.findById(sessionUserId)
                 .orElseThrow(() -> new Exception404("찾을 수 없는 유저입니다."));
-        // 기본 파일 이름 설정
-        String defaultImgFilename = user.getIsEmployer() ? "default/business.png" : "default/avatar.png";
-        // 기존의 파일 이름, 경로 확보
-        String currentImgFilename = user.getImgFilename();
-        Path currentFilePath = Paths.get("./upload/" + user.getImgFilename());
-        // 삭제 요청 여부 및 동일 파일 여부 확인
-        boolean isEmpty = requestDTO.getImgFile() == null || requestDTO.getImgFile().isEmpty();
-        boolean isSameFile = currentImgFilename.equals(requestDTO.getImgFile().getOriginalFilename());
-        if (!isEmpty) { // 이미지 업로드 요청
-            if (!isSameFile) { // 동일 파일 여부 확인
-                MultipartFile imgFile = requestDTO.getImgFile();
-                String newImgFilename = UUID.randomUUID() + "_" + imgFile.getOriginalFilename(); // 파일 이름
-                Path newFilePath = Paths.get("./upload/" + newImgFilename); // 파일 저장 경로
-                Files.delete(currentFilePath);
-                Files.write(newFilePath, imgFile.getBytes());
-                // 새로운 이미지 파일 경로를 업데이트
-                user.picPost(newImgFilename);
-            }
-        } else { // 이미지 삭제 요청
-            Files.delete(currentFilePath);
-            user.picPost(defaultImgFilename); // 기본 파일로 재설정 (실질적 삭제)
-        }
-        return new UserResponse.PicDTO("x");
+        String encodedData = requestDTO.getEncodedImg();
+        byte[] decodedByte = Base64.getDecoder().decode(encodedData);
+        String newFilename = UUID.randomUUID() + "_" + requestDTO.getFileName() + ".jpg";
+        Path newFilePath = Paths.get("./upload/" + newFilename);
+        Files.write(newFilePath, decodedByte);
+        user.picUpdate(newFilename);
+
+        return new UserResponse.PicDTO(requestDTO.getFileName(), newFilePath.toString());
     }
 }
