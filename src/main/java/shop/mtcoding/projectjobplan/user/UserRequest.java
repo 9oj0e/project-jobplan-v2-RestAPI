@@ -78,4 +78,10 @@ public class UserRequest {
                         "|Swift|Kotlin)$"
         ) String> skill = new ArrayList<>();
     }
+
+    @Data
+    public static class PicDTO {
+        private String fileName;
+        private String encodedImg;
+    }
 }

@@ -16,9 +16,11 @@ import shop.mtcoding.projectjobplan.rating.RatingJpaRepository;
 import shop.mtcoding.projectjobplan.skill.Skill;
 import shop.mtcoding.projectjobplan.skill.SkillJpaRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -123,5 +125,19 @@ public class UserService {
         List<UserResponse.SkillDTO> skillList = skills.stream().map(skill -> new UserResponse.SkillDTO(skill)).toList();
 
         return skillList;
+    }
+
+    @Transactional
+    public UserResponse.PicDTO picUpload(UserRequest.PicDTO requestDTO, Integer sessionUserId) throws IOException {
+        User user = userJpaRepository.findById(sessionUserId)
+                .orElseThrow(() -> new Exception404("찾을 수 없는 유저입니다."));
+        String encodedData = requestDTO.getEncodedImg();
+        byte[] decodedByte = Base64.getDecoder().decode(encodedData);
+        String newFilename = UUID.randomUUID() + "_" + requestDTO.getFileName() + ".jpg";
+        Path newFilePath = Paths.get("./upload/" + newFilename);
+        Files.write(newFilePath, decodedByte);
+        user.picUpdate(newFilename);
+
+        return new UserResponse.PicDTO(requestDTO.getFileName(), newFilePath.toString());
     }
 }

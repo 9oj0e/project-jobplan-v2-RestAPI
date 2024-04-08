@@ -48,6 +48,8 @@ public class User {
     private List<Resume> resumes = new ArrayList<>();
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Skill> skills = new ArrayList<>();
+    // 사진
+    private String imgFilename;
 
     @CreationTimestamp
     private Timestamp createdAt;
@@ -87,5 +89,9 @@ public class User {
         this.id = id;
         this.username = username;
         this.isEmployer = isEmployer;
+    }
+
+    public void picUpdate(String imgFilename) {
+        setImgFilename(imgFilename);
     }
 }
